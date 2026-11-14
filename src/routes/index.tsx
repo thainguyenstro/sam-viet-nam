@@ -121,7 +121,6 @@ function HomePage() {
         <SectionTitle
           kicker="Bảng phân tích"
           title="Dinh dưỡng được nói bằng loài, saponin và vùng trồng."
-          text="Số liệu dưới đây theo hồ sơ giới thiệu sản phẩm. Đây không phải bảng thành phần của một lô cụ thể và không phải lời khuyên y khoa."
         />
         <dl className="mt-8 divide-y divide-line rounded-card border border-line bg-paper">
           {nutrients.map((row) => (
@@ -169,11 +168,7 @@ function HomePage() {
       </section>
 
       <section id="cong-thuc" className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-14 md:px-8">
-        <SectionTitle
-          kicker="Công thức"
-          title="Nấu với sâm, theo nhóm nhu cầu."
-          text="Bắt đầu từ bữa dễ nấu. Ưu tiên nguyên liệu thật. Sâm thêm cuối quy trình, theo liều ghi trên sản phẩm. Món ăn không thay thế thuốc."
-        />
+        <SectionTitle kicker="Công thức" title="Nấu với sâm, theo nhóm nhu cầu." />
         <input
           value={query}
           onChange={(event) => {
