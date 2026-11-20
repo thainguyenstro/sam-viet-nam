@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Mail, Menu, Phone, Search, X } from "lucide-react";
+import { Mail, Menu, Phone, Search, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Toaster } from "sonner";
 import { nav, policies, recipes, site } from "@/data/content";
 import { useCart } from "@/lib/cart";
@@ -26,6 +26,8 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <SiteHeader />
       <div id="noi-dung">{children}</div>
       <SiteFooter />
+      <ShopBanner />
+      <ContactFloat />
       <SearchDialog />
       <Toaster
         position="top-center"
@@ -38,6 +40,72 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         }}
       />
     </>
+  );
+}
+
+function ShopBanner() {
+  const [open, setOpen] = useState(true);
+  const spots = [
+    { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: "55%", height: "9%" },
+    { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: "64.5%", height: "9%" },
+    { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: "76%", height: "12%" },
+  ];
+
+  return (
+    <div className="pointer-events-none fixed top-1/2 left-0 z-40 -translate-y-1/2">
+      <div
+        className={cn(
+          "pointer-events-auto relative transition-transform duration-300 ease-out",
+          open ? "translate-x-3" : "translate-x-[calc(-100%+2.75rem)]",
+        )}
+      >
+        <div className="relative w-[168px] overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl sm:w-[220px]">
+          <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="block h-auto w-full" />
+          {spots.map((spot) => (
+            <a
+              key={spot.label}
+              href={spot.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={spot.label}
+              style={{ top: spot.top, height: spot.height }}
+              className="absolute right-[8%] left-[8%] rounded-full transition hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-[0_10px_24px_rgba(0,0,0,0.28)]"
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          aria-label={open ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
+          className="absolute top-3 right-2 grid size-9 place-items-center rounded-full bg-soil text-paper shadow-md transition hover:-translate-y-0.5 hover:bg-bark"
+        >
+          {open ? <ChevronLeft className="size-4" aria-hidden="true" /> : <ChevronRight className="size-4" aria-hidden="true" />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ContactFloat() {
+  return (
+    <div className="fixed right-3 bottom-4 z-40 flex flex-col gap-2">
+      <a
+        href="tel:+84972717779"
+        aria-label="Gọi 0972 717 779"
+        className="lift grid size-12 place-items-center rounded-full bg-[#22c55e] text-white shadow-lg"
+      >
+        <Phone className="size-5" aria-hidden="true" />
+      </a>
+      <a
+        href="https://zalo.me/0972717779"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Nhắn Zalo 0972 717 779"
+        className="lift grid size-12 place-items-center rounded-full bg-[#0068ff] text-[11px] font-bold text-white shadow-lg"
+      >
+        Zalo
+      </a>
+    </div>
   );
 }
 

@@ -21,11 +21,13 @@ function RecipePage() {
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("30");
   const [sex, setSex] = useState<"nu" | "nam">("nu");
+  const [showCook, setShowCook] = useState(false);
 
   useEffect(() => {
     const current = recipeBySlug(slug);
     if (!current) return;
     setServings(current.servings);
+    setShowCook(false);
   }, [slug]);
 
   const factor = recipe ? servings / recipe.servings : 1;
@@ -107,45 +109,78 @@ function RecipePage() {
         </div>
       </section>
 
-      <section className="mt-4 rounded-card border border-line bg-paper px-5 py-8">
-        <h2 className="flex items-center justify-center gap-2 text-center font-display text-2xl text-bark">
-          <ChefHat className="size-5 text-leaf" aria-hidden="true" />
-          Sơ chế
-        </h2>
-        <ul className="mx-auto mt-4 max-w-xl list-disc space-y-2 pl-5 text-base leading-relaxed text-ink">
-          {recipe.prep.map((line) => (
-            <li key={line}>{line}</li>
-          ))}
-        </ul>
-      </section>
+      <a
+        href="https://s.shopee.vn/3VlyIlkNrM"
+        target="_blank"
+        rel="noreferrer"
+        className="lift mx-auto mt-4 flex h-12 w-full max-w-md items-center justify-center rounded-2xl bg-[#d7b15e] px-6 text-sm font-semibold text-bark shadow-md"
+      >
+        Mua Sâm Dây Tại Đây
+      </a>
 
-      <section className="mt-4 rounded-card border border-line bg-[#f6efe4] px-5 py-8">
-        <h2 className="flex items-center justify-center gap-2 text-center font-display text-2xl text-bark">
-          <ChefHat className="size-5 text-leaf" aria-hidden="true" />
-          Cách chế biến
-        </h2>
-        <ol className="mx-auto mt-4 max-w-xl space-y-3">
-          {recipe.steps.map((step, index) => {
-            const same = step.body.trim() === step.title.trim() || step.body.trim().startsWith(step.title.trim());
-            return (
-              <li key={`${step.title}-${index}`} className="rounded-2xl bg-paper px-4 py-3">
-                <h3 className="text-base font-semibold text-bark">
-                  {index + 1}. {same ? step.body : step.title}
-                </h3>
-                {same ? null : <p className="mt-1 text-base leading-relaxed text-mist">{step.body}</p>}
-              </li>
-            );
-          })}
-        </ol>
-        {finish ? (
-          <p className="mx-auto mt-4 max-w-xl rounded-2xl bg-paper px-4 py-3 text-base leading-relaxed text-ink">
-            <span className="font-semibold">Thành phẩm. </span>
-            {finish}
-          </p>
+      <div className="mt-4">
+        <section className="rounded-card border border-line bg-paper px-5 py-8">
+          <h2 className="flex items-center justify-center gap-2 text-center font-display text-2xl text-bark">
+            <ChefHat className="size-5 text-leaf" aria-hidden="true" />
+            Sơ chế
+          </h2>
+          {showCook ? (
+            <ul className="mx-auto mt-4 max-w-xl list-disc space-y-2 pl-5 text-base leading-relaxed text-ink">
+              {recipe.prep.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          ) : (
+            <div className="relative mt-4">
+              <ul className="mx-auto max-h-16 max-w-xl list-disc space-y-2 overflow-hidden pl-5 text-base leading-relaxed text-ink blur-md select-none">
+                {recipe.prep.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-paper to-transparent" />
+              <div className="relative mt-3 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setShowCook(true)}
+                  className="rounded-xl bg-[#1ea7ff] px-6 py-2.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#1496ea]"
+                >
+                  Xem thêm
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {showCook ? (
+          <section className="mt-4 rounded-card border border-line bg-[#f6efe4] px-5 py-8">
+            <h2 className="flex items-center justify-center gap-2 text-center font-display text-2xl text-bark">
+              <ChefHat className="size-5 text-leaf" aria-hidden="true" />
+              Cách chế biến
+            </h2>
+            <ol className="mx-auto mt-4 max-w-xl space-y-3">
+              {recipe.steps.map((step, index) => {
+                const same = step.body.trim() === step.title.trim() || step.body.trim().startsWith(step.title.trim());
+                return (
+                  <li key={`${step.title}-${index}`} className="rounded-2xl bg-paper px-4 py-3">
+                    <h3 className="text-base font-semibold text-bark">
+                      {index + 1}. {same ? step.body : step.title}
+                    </h3>
+                    {same ? null : <p className="mt-1 text-base leading-relaxed text-mist">{step.body}</p>}
+                  </li>
+                );
+              })}
+            </ol>
+            {finish ? (
+              <p className="mx-auto mt-4 max-w-xl rounded-2xl bg-paper px-4 py-3 text-base leading-relaxed text-ink">
+                <span className="font-semibold">Thành phẩm. </span>
+                {finish}
+              </p>
+            ) : null}
+          </section>
         ) : null}
-      </section>
+      </div>
 
-      <section id="nutri" className="rounded-card border border-line bg-paper p-5">
+      <section id="nutri" className="mt-4 rounded-card border border-line bg-paper p-5">
         <h2 className="flex items-center gap-2 font-display text-2xl text-bark">
           <Calculator className="size-5 text-leaf" aria-hidden="true" />
           Nutri-Calculator
