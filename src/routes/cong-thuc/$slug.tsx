@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Calculator, ChefHat, Clock, Leaf, ListChecks } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AlertTriangle, Calculator, ChefHat, Clock, Leaf, ListChecks, Loader2 } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Missing, RecipeCard } from "@/components/site/blocks";
 import { groupName, recipeBySlug, recipes, tagLabels } from "@/data/content";
@@ -22,12 +22,17 @@ function RecipePage() {
   const [age, setAge] = useState("30");
   const [sex, setSex] = useState<"nu" | "nam">("nu");
   const [showCook, setShowCook] = useState(false);
+  const [calculating, setCalculating] = useState(false);
+  const [result, setResult] = useState<{ tdee: number; proteinG: number; fatG: number; carbG: number } | null>(null);
+  const calcTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const current = recipeBySlug(slug);
     if (!current) return;
     setServings(current.servings);
     setShowCook(false);
+    setResult(null);
+    setCalculating(false);
   }, [slug]);
 
   const factor = recipe ? servings / recipe.servings : 1;
@@ -57,6 +62,22 @@ function RecipePage() {
   const carbG = tdee && proteinG && fatG ? Math.max(0, Math.round((tdee - proteinG * 4 - fatG * 9) / 4)) : null;
   const portionKcal = Math.round(recipe.kcal * factor);
 
+  function clearStats() {
+    setResult(null);
+  }
+
+  function runCalc() {
+    if (!valid || tdee == null || proteinG == null || fatG == null || carbG == null) return;
+    setCalculating(true);
+    setResult(null);
+    if (calcTimer.current) window.clearTimeout(calcTimer.current);
+    const snapshot = { tdee, proteinG, fatG, carbG };
+    calcTimer.current = window.setTimeout(() => {
+      setResult(snapshot);
+      setCalculating(false);
+    }, 1000);
+  }
+
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-8 md:px-8">
       <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-leaf">
@@ -69,7 +90,12 @@ function RecipePage() {
         Khoảng {recipe.minutes} phút · ước lượng {recipe.kcal} kcal cho {recipe.servings} phần gốc
       </p>
 
-      <img src={recipe.image} alt="" className="mt-6 aspect-video w-full rounded-card border border-line object-cover" />
+      <img
+        src={recipe.image}
+        alt=""
+        data-recipe-hero
+        className="mt-6 aspect-video w-full rounded-card border border-line object-cover"
+      />
 
       <section className="mt-6 rounded-card border border-line bg-paper p-5 md:p-6">
         <h2 className="font-display text-2xl text-bark">Câu chuyện dinh dưỡng</h2>
@@ -180,14 +206,8 @@ function RecipePage() {
         ) : null}
       </div>
 
-      <section id="nutri" className="mt-4 rounded-card border border-line bg-paper p-5">
-        <h2 className="flex items-center gap-2 font-display text-2xl text-bark">
-          <Calculator className="size-5 text-leaf" aria-hidden="true" />
-          Nutri-Calculator
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-mist">
-          Đổi số người để nhân nguyên liệu. Calo món là ước lượng thô theo khẩu phần gốc, chưa phải phân tích phòng lab.
-        </p>
+      <section className="mt-4 rounded-card border border-line bg-paper p-5">
+        <h2 className="font-display text-2xl text-bark">Ước lượng calo (năng lượng) dựa trên số khẩu phần ăn</h2>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <p className="text-sm font-semibold text-bark">Số người</p>
           <button
@@ -207,14 +227,27 @@ function RecipePage() {
           >
             +
           </button>
-          <p className="text-sm text-mist">Ước lượng cả mẻ: {portionKcal} kcal</p>
+          <p className="text-sm text-mist">Ước lượng tổng calo theo số khẩu phần đã nhập: {portionKcal} kcal</p>
         </div>
+      </section>
+
+      <section id="nutri" className="mt-4 rounded-card border border-line bg-paper p-5">
+        <h2 className="flex items-center gap-2 font-display text-2xl text-bark">
+          <Calculator className="size-5 text-leaf" aria-hidden="true" />
+          Nutri-Calculator
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-mist">
+          Tính lượng calo (năng lượng) mỗi ngày cần thiết dựa trên chiều cao/ cân nặng và giới tính, độ tuổi.
+        </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-4">
           <label className="text-sm text-bark">
             Cao (cm)
             <input
               value={height}
-              onChange={(event) => setHeight(event.target.value)}
+              onChange={(event) => {
+                setHeight(event.target.value);
+                clearStats();
+              }}
               inputMode="decimal"
               className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
             />
@@ -223,7 +256,10 @@ function RecipePage() {
             Nặng (kg)
             <input
               value={weight}
-              onChange={(event) => setWeight(event.target.value)}
+              onChange={(event) => {
+                setWeight(event.target.value);
+                clearStats();
+              }}
               inputMode="decimal"
               className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
             />
@@ -232,7 +268,10 @@ function RecipePage() {
             Tuổi
             <input
               value={age}
-              onChange={(event) => setAge(event.target.value)}
+              onChange={(event) => {
+                setAge(event.target.value);
+                clearStats();
+              }}
               inputMode="numeric"
               className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
             />
@@ -241,7 +280,10 @@ function RecipePage() {
             Giới
             <select
               value={sex}
-              onChange={(event) => setSex(event.target.value as "nu" | "nam")}
+              onChange={(event) => {
+                setSex(event.target.value as "nu" | "nam");
+                clearStats();
+              }}
               className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
             >
               <option value="nu">Nữ</option>
@@ -249,14 +291,25 @@ function RecipePage() {
             </select>
           </label>
         </div>
-        {tdee && proteinG && fatG && carbG ? (
-          <p className="mt-3 text-sm text-ink">
-            Năng lượng cần thiết một ngày: khoảng {tdee} kcal. Trong đó khoảng {proteinG} g đạm, {fatG} g chất béo và{" "}
-            {carbG} g tinh bột. Đây chỉ là thông tin tham khảo, không phải chỉ định y khoa. Mẻ này tương đương khoảng{" "}
-            {Math.round((portionKcal / tdee) * 100)}% mức đó cho một người.
-          </p>
+        <button
+          type="button"
+          onClick={runCalc}
+          disabled={!valid || calculating}
+          className="mt-4 inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-[#d7b15e] px-6 text-sm font-semibold text-bark shadow-md transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+        >
+          {calculating ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+          {calculating ? "Đang tính..." : "Tính toán"}
+        </button>
+        {calculating ? (
+          <p className="mt-3 text-sm text-mist">Đang tính năng lượng trong ngày...</p>
+        ) : result ? (
+          <div className="mt-4 rounded-2xl border border-line bg-cream px-4 py-3 text-sm leading-relaxed text-ink">
+            Năng lượng cần thiết một ngày: {result.tdee} kcal. {result.proteinG} g đạm, {result.fatG} g chất béo và{" "}
+            {result.carbG} g tinh bột. Dựa trên số khẩu phần món ăn bên trên bạn sẽ nạp {portionKcal} trên tổng{" "}
+            {result.tdee} calo cần trong ngày. Đây chỉ là thông tin tham khảo, không phải chỉ định y khoa.
+          </div>
         ) : (
-          <p className="mt-3 text-sm text-mist">Nhập chiều cao và cân nặng hợp lệ để xem mức năng lượng đối chiếu.</p>
+          <p className="mt-3 text-sm text-mist">Nhập chiều cao, cân nặng, tuổi và giới tính, rồi bấm Tính toán.</p>
         )}
       </section>
 

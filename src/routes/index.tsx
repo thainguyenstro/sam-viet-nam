@@ -140,11 +140,7 @@ function HomePage() {
 
       <section id="thuc-duong" className="bg-sage">
         <div className="mx-auto w-full max-w-6xl px-5 py-14 md:px-8">
-          <SectionTitle
-            kicker="Khám phá dinh dưỡng từ sâm"
-            title="Năm nhóm thực dưỡng."
-            text="Mỗi món ghi nguyên liệu, sơ chế và cách nấu. Sâm thêm theo liều trên nhãn sản phẩm."
-          />
+          <SectionTitle kicker="Khám phá dinh dưỡng từ sâm" title="Năm nhóm thực dưỡng." />
           <div className="mt-8 grid gap-3 md:grid-cols-3">
             {groups.map((group, index) => {
               const Icon = groupIcons[index] ?? Leaf;

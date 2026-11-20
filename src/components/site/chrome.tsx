@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Mail, Menu, Phone, Search, X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -44,23 +44,64 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 }
 
 function ShopBanner() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(true);
+  const [box, setBox] = useState({ top: 96, height: 480, width: 220 });
+  const decided = useRef(false);
+
+  useEffect(() => {
+    decided.current = false;
+    const measure = () => {
+      const image = document.querySelector("[data-recipe-hero]");
+      if (!(image instanceof HTMLElement)) {
+        const height = Math.min(520, window.innerHeight - 150);
+        setBox({ top: 96, height, width: Math.min(240, Math.round(height * 0.72)) });
+        return;
+      }
+      const rect = image.getBoundingClientRect();
+      const gap = Math.max(0, window.innerWidth - rect.right - 64);
+      const height = Math.max(180, rect.height);
+      const width = Math.min(gap, Math.round(height * 0.9));
+      const next = { top: rect.top, height, width: Math.max(0, width) };
+      setBox((prev) =>
+        Math.abs(prev.top - next.top) < 1 && Math.abs(prev.height - next.height) < 1 && prev.width === next.width
+          ? prev
+          : next,
+      );
+      if (!decided.current) {
+        decided.current = true;
+        setOpen(width >= 160);
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, { passive: true });
+    return () => {
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure);
+    };
+  }, [pathname]);
+
   const spots = [
     { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: "55%", height: "9%" },
     { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: "64.5%", height: "9%" },
     { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: "76%", height: "12%" },
   ];
+  const shown = open && box.width >= 120;
 
   return (
-    <div className="pointer-events-none fixed top-1/2 left-0 z-40 -translate-y-1/2">
-      <div
-        className={cn(
-          "pointer-events-auto relative transition-transform duration-300 ease-out",
-          open ? "translate-x-3" : "translate-x-[calc(-100%+2.75rem)]",
-        )}
+    <div className="fixed z-40 flex items-start" style={{ top: box.top, right: 12, height: box.height }}>
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-label={shown ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
+        className="mt-3 grid size-9 shrink-0 place-items-center rounded-full bg-soil text-paper shadow-md transition hover:-translate-y-0.5 hover:bg-bark"
       >
-        <div className="relative w-[168px] overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl sm:w-[220px]">
-          <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="block h-auto w-full" />
+        {shown ? <ChevronRight className="size-4" aria-hidden="true" /> : <ChevronLeft className="size-4" aria-hidden="true" />}
+      </button>
+      <div className="overflow-hidden transition-[width] duration-300 ease-out" style={{ width: shown ? box.width : 0 }}>
+        <div className="relative h-full overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl" style={{ width: box.width }}>
+          <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="block h-full w-full object-fill" />
           {spots.map((spot) => (
             <a
               key={spot.label}
@@ -73,14 +114,6 @@ function ShopBanner() {
             />
           ))}
         </div>
-        <button
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-label={open ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
-          className="absolute top-3 right-2 grid size-9 place-items-center rounded-full bg-soil text-paper shadow-md transition hover:-translate-y-0.5 hover:bg-bark"
-        >
-          {open ? <ChevronLeft className="size-4" aria-hidden="true" /> : <ChevronRight className="size-4" aria-hidden="true" />}
-        </button>
       </div>
     </div>
   );
