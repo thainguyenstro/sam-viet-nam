@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -38,6 +38,8 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const tableRef = useRef<HTMLDListElement>(null);
+  const [side, setSide] = useState(0);
   const [query, setQuery] = useState("");
   const [need, setNeed] = useState<"all" | GroupId>("all");
   const [tag, setTag] = useState("all");
@@ -57,6 +59,16 @@ function HomePage() {
   const pageCount = Math.max(1, Math.ceil(list.length / pageSize));
   const current = Math.min(page, pageCount);
   const visible = list.slice((current - 1) * pageSize, current * pageSize);
+
+  useEffect(() => {
+    const node = tableRef.current;
+    if (!node) return;
+    const measure = () => setSide(node.offsetHeight);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   function openGroup(id: GroupId) {
     setNeed(id);
@@ -122,20 +134,40 @@ function HomePage() {
           kicker="Bảng phân tích"
           title="Dinh dưỡng được nói bằng loài, saponin và vùng trồng."
         />
-        <dl className="mt-8 divide-y divide-line rounded-card border border-line bg-paper">
-          {nutrients.map((row) => (
-            <div
-              key={row.name}
-              className="grid gap-1 px-5 py-4 transition hover:bg-sage/60 sm:grid-cols-[12rem_1fr] sm:gap-6"
-            >
-              <dt className="flex items-center gap-2 text-sm font-semibold text-bark">
-                <Table2 className="size-4 shrink-0 text-leaf" aria-hidden="true" />
-                {row.name}
-              </dt>
-              <dd className="text-sm leading-relaxed text-mist">{row.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="mt-8 grid items-stretch gap-4 md:grid-cols-[minmax(0,1fr)_auto]">
+          <dl ref={tableRef} className="min-w-0 divide-y divide-line rounded-card border border-line bg-paper">
+            {nutrients.map((row) => (
+              <div
+                key={row.name}
+                className="grid gap-1 px-4 py-2.5 transition hover:bg-sage/60 sm:grid-cols-[9.5rem_1fr] sm:gap-4"
+              >
+                <dt className="flex items-center gap-2 text-[13px] font-semibold text-bark">
+                  <Table2 className="size-3.5 shrink-0 text-leaf" aria-hidden="true" />
+                  {row.name}
+                </dt>
+                <dd className="text-[13px] leading-relaxed text-mist">{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <a
+            href="/axit-amin.html"
+            className="amino-side group relative flex flex-col justify-between overflow-hidden rounded-card bg-[#3d2b1c] p-4 text-[#f7edd8] shadow-md sm:p-5"
+            style={{ ["--side" as string]: side ? `${side}px` : undefined }}
+          >
+            <span className="pointer-events-none absolute -top-10 -right-8 size-36 rounded-full bg-[#e2c27a]/25 blur-2xl" />
+            <span className="pointer-events-none absolute -bottom-12 -left-8 size-32 rounded-full bg-[#6d8a4e]/25 blur-2xl" />
+            <span className="relative text-[10px] font-semibold tracking-[0.16em] text-[#e2c27a]">SÂM VIỆT NAM</span>
+            <span className="relative mt-2 font-display text-lg leading-tight sm:text-xl">
+              KHÁM PHÁ CÔNG DỤNG 17 AXIT AMIN
+            </span>
+            <span className="relative mt-2 text-xs leading-relaxed text-[#f7edd8]/85 sm:text-sm">
+              Hàm lượng dinh dưỡng cao kết hợp chế độ dinh dưỡng với Sâm mang lại hiệu quả đặc biệt cho cơ thể của bạn
+            </span>
+            <span className="relative mt-3 inline-flex items-center justify-center rounded-2xl bg-[#e2c27a] px-3 py-2.5 text-center text-xs font-bold tracking-wide text-bark shadow-lg transition group-hover:-translate-y-1 group-hover:shadow-xl sm:text-sm">
+              KHÁM PHÁ NGAY
+            </span>
+          </a>
+        </div>
       </section>
 
       <section id="thuc-duong" className="bg-sage">

@@ -50,6 +50,20 @@
   .lift:hover .icon-pop {
     transform: scale(1.12) rotate(-8deg);
   }
+  .amino-side {
+    width: min(100%, 24rem);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+  @media (min-width: 768px) {
+    .amino-side {
+      width: var(--side, 18rem);
+      height: var(--side, 18rem);
+      max-width: none;
+      aspect-ratio: auto;
+      margin: 0;
+    }
+  }
 }
 
 @layer base {

@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Các Nhóm Axit Amin & Công Dụng Chuyên Sâu</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Playfair Display (Serif sang trọng) & Be Vietnam Pro (Sans-serif tiếng Việt mượt mà) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            cream: {
+              light: '#FAF4ED',
+              base: '#F6ECE0',
+              dark: '#F3E7D8',
+            },
+            brown: {
+              dark: '#4A3525',
+              medium: '#6B503B',
+              light: '#8E715B',
+            },
+            gold: {
+              border: '#D6BFA7',
+              accent: '#C89E6B',
+            },
+            peach: {
+              bg: '#FBE5DC',
+              pill: '#F6DFD6',
+              pillHover: '#EFC6B7',
+            },
+            sage: {
+              bg: '#E8EFE0',
+              accent: '#789E54',
+            },
+            lavender: {
+              bg: '#EAE6F5',
+              accent: '#7B68AE',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Nền chuyển sắc kem ấm áp như hình gốc */
+    body {
+      background: radial-gradient(circle at 15% 10%, #FFFBF7 0%, #FAF4ED 45%, #F3E7D8 100%);
+      color: #4A3525;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Hiệu ứng nổi lơ lửng cho phân tử 3D và lá cây */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1.5deg); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(8px) rotate(-1.5deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+    @keyframes floatZzz {
+      0%, 100% { transform: translateY(0px); opacity: 0.7; }
+      50% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    .animate-float-slow {
+      animation: floatSlow 7s ease-in-out infinite;
+    }
+    .animate-float-reverse {
+      animation: floatReverse 8s ease-in-out infinite;
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 3.5s ease-in-out infinite;
+    }
+    .animate-zzz {
+      animation: floatZzz 2.8s ease-in-out infinite;
+    }
+
+    /* Hiệu ứng xuất hiện mượt mà khi đường line SVG cuộn tới */
+    .timeline-step-card {
+      opacity: 0.42;
+      transform: translateY(28px) scale(0.985);
+      transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.4s ease,
+                  border-color 0.4s ease;
+    }
+    .timeline-step-card.is-active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Thẻ Infographic chính */
+    .info-card {
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px dashed #D6BFA7;
+      border-radius: 24px;
+      box-shadow: 0 12px 35px -10px rgba(74, 53, 37, 0.08),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .timeline-step-card.is-active.info-card,
+    .info-card:hover {
+      border-color: #8BA863;
+      box-shadow: 0 22px 45px -12px rgba(93, 114, 52, 0.16),
+                  0 0 25px rgba(103, 188, 81, 0.14),
+                  inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+
+    /* Hiệu ứng cho các vòng tròn mốc trên SVG Timeline */
+    .svg-node-circle {
+      transition: fill 0.4s ease, stroke 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+      cursor: pointer;
+    }
+    .svg-node-circle.is-reached {
+      transform: scale(1.14);
+      filter: drop-shadow(0 6px 14px rgba(0, 104, 56, 0.35));
+    }
+    .svg-node-text {
+      transition: fill 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-box: fill-box;
+      transform-origin: center;
+      pointer-events: none;
+      user-select: none;
+    }
+    .svg-node-text.is-reached {
+      transform: scale(1.12);
+    }
+    .svg-node-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: opacity 0.4s ease, transform 0.6s ease;
+    }
+    .svg-node-ring.is-reached {
+      animation: pulseGlow 2.6s ease-in-out infinite;
+    }
+
+    /* Vòng tròn icon trên đỉnh thẻ */
+    .top-badge-circle {
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    }
+    .info-card:hover .top-badge-circle,
+    .timeline-step-card.is-active .top-badge-circle {
+      transform: translateY(-4px) scale(1.06);
+      box-shadow: 0 14px 28px -6px rgba(74, 53, 37, 0.15);
+    }
+
+    /* Từng dòng Axit Amin tương tác */
+    .amino-row {
+      transition: all 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 14px;
+    }
+    .amino-row:hover {
+      background-color: rgba(250, 244, 237, 0.95);
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(74, 53, 37, 0.05);
+    }
+    .amino-pill {
+      background-color: #F6DFD6;
+      color: #4A3525;
+      transition: all 0.28s ease;
+    }
+    .amino-row:hover .amino-pill {
+      background-color: #E7B8A6;
+      color: #2E1E12;
+      transform: scale(1.03);
+      box-shadow: 0 3px 10px rgba(196, 132, 108, 0.25);
+    }
+
+    /* Tùy chỉnh thanh cuộn */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF4ED;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D6BFA7;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B89B7E;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-peach-pill selection:text-brown-dark relative">
+<a href="/" style="position:fixed;top:14px;left:14px;z-index:70;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:#4A3525;color:#F7EDD8;font-family:system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 8px 20px rgba(74,53,37,.2)">← Sâm Việt Nam</a>
+
+
+  <!-- Họa tiết nền góc trên bên phải (Cấu trúc phân tử 3D bóng bẩy + Giọt tinh chất vàng + Cành lá xanh tự nhiên) -->
+  <div id="hero-decor" class="pointer-events-none fixed top-0 right-0 w-[340px] sm:w-[460px] lg:w-[560px] h-[300px] sm:h-[360px] z-0 overflow-hidden opacity-90">
+    <!-- Vòng cung ánh sáng mềm mại góc phải -->
+    <div class="absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-gradient-to-bl from-[#E9D7C3]/55 via-[#F4E7D7]/30 to-transparent blur-xl"></div>
+
+    <!-- SVG Chuỗi phân tử 3D màu vàng đồng/hổ phách & Giọt tinh chất -->
+    <svg class="w-full h-full animate-float-slow" viewBox="0 0 560 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Gradient cầu phân tử 3D vàng đồng / hổ phách -->
+        <radialGradient id="amberSphere" cx="32%" cy="28%" r="70%">
+          <stop offset="0%" stop-color="#FFFDF9"/>
+          <stop offset="28%" stop-color="#F2DCB8"/>
+          <stop offset="70%" stop-color="#CFA468"/>
+          <stop offset="100%" stop-color="#9A723B"/>
+        </radialGradient>
+        <radialGradient id="amberSphereLight" cx="30%" cy="25%" r="72%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="35%" stop-color="#F7EAD4"/>
+          <stop offset="80%" stop-color="#DEC092"/>
+          <stop offset="100%" stop-color="#B9935A"/>
+        </radialGradient>
+        <!-- Gradient thanh liên kết phân tử -->
+        <linearGradient id="bondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E8CFA8" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#C99E63" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#F3DFC1" stop-opacity="0.9"/>
+        </linearGradient>
+        <!-- Gradient giọt tinh chất vàng óng -->
+        <radialGradient id="goldenDrop" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="22%" stop-color="#FBE8C2"/>
+          <stop offset="65%" stop-color="#DFA957"/>
+          <stop offset="92%" stop-color="#B87E2D"/>
+          <stop offset="100%" stop-color="#F4D39B"/>
+        </radialGradient>
+        <!-- Gradient lá xanh tự nhiên -->
+        <linearGradient id="leafGreen1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#9DB36B"/>
+          <stop offset="50%" stop-color="#768D45"/>
+          <stop offset="100%" stop-color="#52662B"/>
+        </linearGradient>
+        <linearGradient id="leafGreen2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#B1C47E"/>
+          <stop offset="55%" stop-color="#839950"/>
+          <stop offset="100%" stop-color="#5D7234"/>
+        </linearGradient>
+        <filter id="softDropShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#8C673A" flood-opacity="0.16"/>
+        </filter>
+      </defs>
+
+      <!-- Liên kết phân tử hóa học -->
+      <g stroke="url(#bondGrad)" stroke-width="5.5" stroke-linecap="round" opacity="0.82">
+        <line x1="210" y1="185" x2="250" y2="115"/>
+        <line x1="250" y1="115" x2="318" y2="62"/>
+        <line x1="318" y1="62" x2="365" y2="102"/>
+        <line x1="365" y1="102" x2="405" y2="76"/>
+        <line x1="405" y1="76" x2="448" y2="55"/>
+        <line x1="448" y1="55" x2="472" y2="34"/>
+        <line x1="250" y1="115" x2="305" y2="152"/>
+        <line x1="305" y1="152" x2="340" y2="185"/>
+        <line x1="365" y1="102" x2="388" y2="145"/>
+      </g>
+
+      <!-- Các nguyên tử cầu 3D -->
+      <g filter="url(#softDropShadow)">
+        <circle cx="210" cy="185" r="16" fill="url(#amberSphereLight)" opacity="0.55"/>
+        <circle cx="250" cy="115" r="21" fill="url(#amberSphere)"/>
+        <circle cx="318" cy="62" r="23" fill="url(#amberSphere)"/>
+        <circle cx="365" cy="102" r="18" fill="url(#amberSphereLight)"/>
+        <circle cx="405" cy="76" r="16" fill="url(#amberSphere)"/>
+        <circle cx="448" cy="55" r="14" fill="url(#amberSphereLight)"/>
+        <circle cx="472" cy="34" r="10" fill="url(#amberSphere)"/>
+        <circle cx="305" cy="152" r="13" fill="url(#amberSphereLight)"/>
+        <circle cx="340" cy="185" r="11" fill="url(#amberSphere)" opacity="0.7"/>
+        <circle cx="388" cy="145" r="12" fill="url(#amberSphereLight)" opacity="0.8"/>
+      </g>
+
+      <!-- Giọt tinh chất vàng hổ phách căng mọng -->
+      <g filter="url(#softDropShadow)">
+        <path d="M446 95 C446 95, 484 152, 484 176 C484 197, 467 213, 446 213 C425 213, 408 197, 408 176 C408 152, 446 95, 446 95 Z" fill="url(#goldenDrop)"/>
+        <!-- Điểm phản chiếu sáng trên giọt dầu -->
+        <ellipse cx="433" cy="166" rx="6" ry="16" transform="rotate(-18 433 166)" fill="#FFFFFF" opacity="0.75"/>
+        <circle cx="439" cy="142" r="3" fill="#FFFFFF" opacity="0.85"/>
+      </g>
+
+      <!-- Cành lá xanh tự nhiên bên phải -->
+      <g class="animate-float-reverse" style="transform-origin: 510px 230px;">
+        <!-- Thân cành -->
+        <path d="M495 255 Q512 165 516 55" stroke="#6E8242" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- Lá 1 (Đỉnh) -->
+        <path d="M515 65 C502 42, 505 18, 514 8 C525 20, 530 44, 515 65 Z" fill="url(#leafGreen1)"/>
+        <path d="M515 65 Q515 35 514 10" stroke="#A7BA77" stroke-width="1" fill="none" opacity="0.7"/>
+        <!-- Lá 2 (Trái trên) -->
+        <path d="M514 95 C490 78, 476 54, 482 36 C500 45, 514 68, 514 95 Z" fill="url(#leafGreen2)"/>
+        <path d="M514 95 Q496 66 483 38" stroke="#BDD08B" stroke-width="1" fill="none" opacity="0.7"/>
+        <!-- Lá 3 (Phải trên) -->
+        <path d="M515 112 C535 92, 558 82, 574 88 C562 108, 540 118, 515 112 Z" fill="url(#leafGreen1)"/>
+        <!-- Lá 4 (Trái giữa) -->
+        <path d="M511 148 C484 134, 464 112, 468 92 C488 100, 506 122, 511 148 Z" fill="url(#leafGreen1)"/>
+        <path d="M511 148 Q489 120 470 94" stroke="#B6C884" stroke-width="1" fill="none" opacity="0.65"/>
+        <!-- Lá 5 (Phải giữa) -->
+        <path d="M510 165 C536 146, 564 140, 582 150 C566 168, 538 175, 510 165 Z" fill="url(#leafGreen2)"/>
+        <!-- Lá 6 (Trái dưới) -->
+        <path d="M504 202 C478 192, 458 174, 460 156 C480 162, 498 180, 504 202 Z" fill="url(#leafGreen2)"/>
+        <!-- Lá 7 (Phải dưới) -->
+        <path d="M502 216 C526 202, 552 200, 566 212 C550 226, 525 228, 502 216 Z" fill="url(#leafGreen1)"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Khung nội dung chính -->
+  <main class="relative z-10 max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-12 pb-16">
+
+    <!-- Tiêu đề chính -->
+    <header class="mb-12 sm:mb-16">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/75 border border-gold-border/70 shadow-sm mb-3 backdrop-blur-sm">
+          <span class="w-2 h-2 rounded-full bg-gold-accent animate-pulse"></span>
+          <span class="text-xs sm:text-sm font-medium text-brown-medium tracking-wide">Cẩm nang Dưỡng chất & Phục hồi Toàn diện</span>
+        </div>
+        <h1 class="font-serif text-2xl sm:text-4xl lg:text-[40px] font-bold text-brown-dark leading-tight tracking-tight">
+          Phân Nhóm Axit Amin Thiết Yếu
+        </h1>
+        <p class="mt-2 text-sm sm:text-base text-brown-medium max-w-2xl leading-relaxed">
+          Cuộn trang để theo dõi hành trình tác động của 3 nhóm Axit Amin theo trục tiến trình bên cạnh, hoặc nhấp vào từng hoạt chất để xem phân tích chi tiết.
+        </p>
+      </div>
+    </header>
+
+    <!-- =======================================================================
+         KHU VỰC VERTICAL SCROLLYTELLING & SVG TIMELINE PROGRESS BAR
+         ======================================================================= -->
+    <section id="timeline-wrapper" class="content7 relative pt-6 pb-8">
+
+      <!-- Trục SVG Timeline Progress Bar chạy dọc theo tiến độ cuộn trang -->
+      <div class="absolute top-0 bottom-0 left-0 sm:left-2 lg:left-1/2 lg:-translate-x-1/2 w-[76px] sm:w-[96px] z-20 pointer-events-none">
+        <svg id="timeline-svg" class="w-full h-full overflow-visible" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Gradient xanh lá thảo mộc kết hợp ánh vàng đồng sang trọng -->
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#67bc51; stop-opacity:1"></stop>
+              <stop offset="55%" style="stop-color:#2c8e45; stop-opacity:1"></stop>
+              <stop offset="100%" style="stop-color:#006838; stop-opacity:1"></stop>
+            </linearGradient>
+            <filter id="nodeGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#006838" flood-opacity="0.28"/>
+            </filter>
+          </defs>
+
+          <!-- Đường line nền chưa kích hoạt -->
+          <line id="lineDeactivated" x1="50%" y1="80" x2="50%" y2="800" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"></line>
+          <line id="lineDeactivatedBorder" x1="50%" y1="80" x2="50%" y2="800" stroke="#D6BFA7" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"></line>
+
+          <!-- Đường line kích hoạt chạy theo tiến độ cuộn (scroll-driven) -->
+          <line id="lineActivated" x1="50%" y1="80" x2="50%" y2="80" stroke="url(#gradient)" stroke-width="5" stroke-linecap="round"></line>
+
+          <!-- Mốc vòng tròn 1 -->
+          <g class="pointer-events-auto" data-target-step="0">
+            <circle id="ring1" class="svg-node-ring" cx="50%" cy="100" r="33" fill="none" stroke="#67bc51" stroke-width="2" opacity="0"></circle>
+            <circle id="circle1" class="svg-node-circle" cx="50%" cy="100" r="26" fill="#FFFFFF" stroke="#D6BFA7" stroke-width="2.5"></circle>
+            <text id="text1" class="svg-node-text font-serif font-bold" x="50%" y="100" text-anchor="middle" dominant-baseline="central" fill="#6B503B" font-size="20">1</text>
+          </g>
+
+          <!-- Mốc vòng tròn 2 -->
+          <g class="pointer-events-auto" data-target-step="1">
+            <circle id="ring2" class="svg-node-ring" cx="50%" cy="400" r="33" fill="none" stroke="#67bc51" stroke-width="2" opacity="0"></circle>
+            <circle id="circle2" class="svg-node-circle" cx="50%" cy="400" r="26" fill="#FFFFFF" stroke="#D6BFA7" stroke-width="2.5"></circle>
+            <text id="text2" class="svg-node-text font-serif font-bold" x="50%" y="400" text-anchor="middle" dominant-baseline="central" fill="#6B503B" font-size="20">2</text>
+          </g>
+
+          <!-- Mốc vòng tròn 3 -->
+          <g class="pointer-events-auto" data-target-step="2">
+            <circle id="ring3" class="svg-node-ring" cx="50%" cy="700" r="33" fill="none" stroke="#67bc51" stroke-width="2" opacity="0"></circle>
+            <circle id="circle3" class="svg-node-circle" cx="50%" cy="700" r="26" fill="#FFFFFF" stroke="#D6BFA7" stroke-width="2.5"></circle>
+            <text id="text3" class="svg-node-text font-serif font-bold" x="50%" y="700" text-anchor="middle" dominant-baseline="central" fill="#6B503B" font-size="20">3</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Danh sách 3 bước nội dung xếp dọc (So le trái - phải trên Desktop, lệch phải bên cạnh trục SVG trên Mobile) -->
+      <div class="space-y-20 sm:space-y-24">
+
+        <!-- ===================================================================
+             BƯỚC 1 (MỐC 1): NHÓM HỖ TRỢ DA, TÓC, MÔ VÀ CHỐNG LÃO HÓA
+             =================================================================== -->
+        <div class="timeline-step relative flex items-center lg:justify-between pl-[82px] sm:pl-[108px] lg:pl-0" data-step-index="0">
+          <!-- Thẻ nội dung bên trái trục SVG trên Desktop -->
+          <div class="w-full lg:w-[calc(50%-62px)]">
+            <article class="timeline-step-card info-card relative flex flex-col justify-between pt-14 sm:pt-16 px-5 sm:px-7 pb-0 overflow-visible" data-card-index="0">
+
+              <!-- Badge tròn nổi phía trên đỉnh thẻ -->
+              <div class="top-badge-circle absolute -top-11 left-1/2 -translate-x-1/2 w-22 h-22 sm:w-[98px] sm:h-[98px] rounded-full bg-[#FBE5DC] border-2 border-white shadow-md flex items-center justify-center overflow-hidden">
+                <!-- SVG Minh họa khuôn mặt phụ nữ chăm sóc da & ngôi sao lấp lánh -->
+                <svg class="w-20 h-20 sm:w-22 sm:h-22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="46" fill="#FBE5DC"/>
+                  <path d="M28 48 C25 25, 42 15, 56 17 C72 19, 78 34, 75 56 C74 65, 70 72, 65 76 L34 76 C29 68, 29 58, 28 48 Z" fill="#C99870" stroke="#7A4B32" stroke-width="1.8"/>
+                  <path d="M43 68 L43 82 Q50 86 57 82 L57 68" fill="#F9D5C3" stroke="#7A4B32" stroke-width="1.6"/>
+                  <path d="M30 88 C34 80, 42 78, 50 78 C58 78, 66 80, 70 88" fill="#FFF7F3" stroke="#7A4B32" stroke-width="1.6"/>
+                  <path d="M35 42 C35 28, 67 28, 67 42 C67 57, 60 69, 51 69 C42 69, 35 57, 35 42 Z" fill="#FDE3D6" stroke="#7A4B32" stroke-width="1.8"/>
+                  <path d="M35 43 C36 31, 46 25, 56 26 C53 33, 44 38, 35 43 Z" fill="#D5A67E" stroke="#7A4B32" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M55 26 C63 28, 68 35, 67 44 C62 39, 58 33, 55 26 Z" fill="#D5A67E" stroke="#7A4B32" stroke-width="1.6" stroke-linejoin="round"/>
+                  <path d="M41 42 Q44.5 40 48 42" stroke="#7A4B32" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M55 42 Q58.5 40 62 42" stroke="#7A4B32" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M41 47 Q44.5 50 48 47" stroke="#7A4B32" stroke-width="1.6" stroke-linecap="round"/>
+                  <path d="M55 47 Q58.5 50 62 47" stroke="#7A4B32" stroke-width="1.6" stroke-linecap="round"/>
+                  <ellipse cx="42" cy="53" rx="3.5" ry="2" fill="#F2A493" opacity="0.6"/>
+                  <ellipse cx="60" cy="53" rx="3.5" ry="2" fill="#F2A493" opacity="0.6"/>
+                  <path d="M48 59 Q51.5 62 55 59" stroke="#B66454" stroke-width="1.6" stroke-linecap="round"/>
+                  <path d="M32 64 C30 57, 33 50, 36 49 C38 49, 38 54, 38 57 C39 52, 41 51, 42 52 C43 53, 42 58, 41 62 C40 66, 36 69, 33 67 Z" fill="#FDE3D6" stroke="#7A4B32" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path class="animate-pulse-glow" d="M81 36 L82.8 41.2 L88 43 L82.8 44.8 L81 50 L79.2 44.8 L74 43 L79.2 41.2 Z" fill="#D48B73"/>
+                  <path class="animate-pulse-glow" style="animation-delay: 1.2s;" d="M75 56 L76.2 59.5 L79.5 60.7 L76.2 61.9 L75 65.4 L73.8 61.9 L70.5 60.7 L73.8 59.5 Z" fill="#E3A58E"/>
+                </svg>
+              </div>
+
+              <!-- Phần nội dung trên & danh sách hoạt chất -->
+              <div>
+                <div class="text-center mb-1">
+                  <span class="inline-block px-3 py-0.5 rounded-full bg-peach-bg text-brown-medium text-[11px] font-bold uppercase tracking-wider">Nhóm 01 • Sắc đẹp & Tái tạo</span>
+                </div>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-brown-dark text-center leading-snug px-2">
+                  Nhóm hỗ trợ da, tóc, mô và chống lão hóa
+                </h2>
+                <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-gold-border/60 to-transparent my-4"></div>
+
+                <!-- Danh sách 5 axit amin cột 1 -->
+                <ul class="space-y-2.5" id="list-col-1">
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Serine"
+                      data-group="Nhóm hỗ trợ da, tóc, mô và chống lão hóa"
+                      data-tags="skin"
+                      data-short="Tăng sinh tế bào, dưỡng da"
+                      data-detail="Serine là thành phần quan trọng cấu tạo nên lớp màng ẩm tự nhiên (NMF) của biểu bì, giúp khóa ẩm sâu, thúc đẩy quá trình tái tạo và tăng sinh tế bào da mới mịn màng, khỏe mạnh.">
+                    <span class="amino-pill shrink-0 w-[124px] sm:w-[134px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Serine
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-1">
+                      Tăng sinh tế bào, dưỡng da
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Glutamic acid"
+                      data-group="Nhóm hỗ trợ da, tóc, mô và chống lão hóa"
+                      data-tags="skin"
+                      data-short="Dưỡng da, kích thích tế bào da phát triển, tạo màng bọc quanh sợi tóc"
+                      data-detail="Glutamic acid giúp cân bằng độ pH tự nhiên trên bề mặt da, kích thích sự phát triển của các tế bào biểu bì khỏe mạnh, đồng thời tạo lớp màng dưỡng chất bao bọc bảo vệ sợi tóc khỏi hư tổn và khô xơ.">
+                    <span class="amino-pill shrink-0 w-[124px] sm:w-[134px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Glutamic acid
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-0.5">
+                      Dưỡng da, kích thích tế bào da phát triển, tạo màng bọc quanh sợi tóc
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Proline"
+                      data-group="Nhóm hỗ trợ da, tóc, mô và chống lão hóa"
+                      data-tags="skin"
+                      data-short="Chống lão hóa"
+                      data-detail="Proline chiếm tỷ lệ lớn trong cấu trúc sợi Collagen tự nhiên của cơ thể. Hoạt chất này giúp duy trì độ đàn hồi, săn chắc của mô liên kết và làm chậm rõ rệt các dấu hiệu lão hóa, nếp nhăn trên da.">
+                    <span class="amino-pill shrink-0 w-[124px] sm:w-[134px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Proline
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-1">
+                      Chống lão hóa
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Cystein"
+                      data-group="Nhóm hỗ trợ da, tóc, mô và chống lão hóa"
+                      data-tags="skin"
+                      data-short="Chăm sóc da tóc"
+                      data-detail="Cystein giàu lưu huỳnh là tiền chất cốt lõi tổng hợp nên Keratin — protein chính cấu tạo nên sợi tóc và móng, đồng thời hỗ trợ tổng hợp Glutathione giúp làm sáng và bảo vệ da toàn diện.">
+                    <span class="amino-pill shrink-0 w-[124px] sm:w-[134px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Cystein
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-1">
+                      Chăm sóc da tóc
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Lysine"
+                      data-group="Nhóm hỗ trợ da, tóc, mô và chống lão hóa"
+                      data-tags="skin"
+                      data-short="Hỗ trợ cấu trúc da và xương, tăng tế bào mới tại vết thương, thúc đẩy hình thành mạch máu mới"
+                      data-detail="Lysine đóng vai trò thiết yếu trong quá trình liên kết chéo sợi collagen, củng cố cấu trúc nền của da và xương, đẩy nhanh tốc độ tăng sinh tế bào mới tại vùng tổn thương và thúc đẩy hình thành vi mạch máu nuôi dưỡng mô.">
+                    <span class="amino-pill shrink-0 w-[124px] sm:w-[134px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Lysine
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-0.5">
+                      Hỗ trợ cấu trúc da và xương, tăng tế bào mới tại vết thương, thúc đẩy hình thành mạch máu mới
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Minh họa đáy thẻ 1: Cấu trúc biểu bì da & nang tóc / sợi tóc tinh tế -->
+              <div class="mt-5 -mx-5 sm:-mx-7 rounded-b-[22px] overflow-hidden">
+                <svg class="w-full h-28 sm:h-32 block" viewBox="0 0 400 145" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="skinEpidermis" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#FBEAD8" stop-opacity="0.2"/>
+                      <stop offset="45%" stop-color="#F4D3B8" stop-opacity="0.7"/>
+                      <stop offset="100%" stop-color="#E7B89B" stop-opacity="0.85"/>
+                    </linearGradient>
+                    <linearGradient id="skinDermis" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#F6C8BA" stop-opacity="0.65"/>
+                      <stop offset="100%" stop-color="#EBA999" stop-opacity="0.85"/>
+                    </linearGradient>
+                    <linearGradient id="hairShaftGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#3E2718"/>
+                      <stop offset="50%" stop-color="#6E4930"/>
+                      <stop offset="100%" stop-color="#2B190E"/>
+                    </linearGradient>
+                    <radialGradient id="serumBubble" cx="35%" cy="30%" r="70%">
+                      <stop offset="0%" stop-color="#FFFFFF"/>
+                      <stop offset="45%" stop-color="#F6DFC0"/>
+                      <stop offset="100%" stop-color="#D4A76A"/>
+                    </radialGradient>
+                  </defs>
+                  <path d="M0 105 Q100 92 200 106 T400 102 L400 145 L0 145 Z" fill="url(#skinDermis)"/>
+                  <path d="M10 122 Q80 112 150 128 T300 120 T395 130" stroke="#DF9686" stroke-width="1.5" fill="none" opacity="0.55"/>
+                  <path d="M5 134 Q95 124 185 136 T380 126" stroke="#DF9686" stroke-width="1.5" fill="none" opacity="0.45"/>
+                  <path d="M0 86 C65 78, 110 92, 145 96 C154 98, 156 126, 174 126 C192 126, 194 96, 206 94 C265 84, 330 78, 400 88 L400 112 C310 104, 240 116, 174 134 C110 118, 50 106, 0 112 Z" fill="url(#skinEpidermis)"/>
+                  <path d="M0 86 C65 78, 110 92, 145 96 C154 98, 156 126, 174 126 C192 126, 194 96, 206 94 C265 84, 330 78, 400 88" stroke="#E5B996" stroke-width="2" fill="none"/>
+                  <path d="M159 95 C157 114, 161 132, 174 132 C187 132, 191 114, 189 95" fill="#FCE9D9" stroke="#DDA882" stroke-width="1.8"/>
+                  <path d="M174 124 C166 124, 164 114, 168 103 C174 82, 196 42, 232 10 C203 44, 185 83, 181 104 C184 114, 182 124, 174 124 Z" fill="url(#hairShaftGrad)"/>
+                  <path d="M174 112 C178 86, 196 48, 224 18" stroke="#B68B68" stroke-width="1.2" stroke-linecap="round" opacity="0.65"/>
+                  <circle cx="105" cy="48" r="8" fill="url(#serumBubble)" opacity="0.85"/>
+                  <circle cx="132" cy="70" r="5" fill="url(#serumBubble)" opacity="0.75"/>
+                  <circle cx="252" cy="54" r="9.5" fill="url(#serumBubble)" opacity="0.85"/>
+                  <circle cx="282" cy="36" r="5.5" fill="url(#serumBubble)" opacity="0.7"/>
+                </svg>
+              </div>
+            </article>
+          </div>
+
+          <!-- Ghi chú tóm tắt đối diện trên Desktop -->
+          <div class="hidden lg:flex w-[calc(50%-62px)] flex-col items-start pl-4 text-left">
+            <div class="p-6 rounded-2xl bg-white/55 border border-gold-border/60 backdrop-blur-sm max-w-md shadow-sm">
+              <span class="text-xs font-bold uppercase tracking-widest text-sage-accent">Giai đoạn 01</span>
+              <h3 class="font-serif text-xl font-bold text-brown-dark mt-1">Tái Cấu Trúc Biểu Bì & Nang Tóc</h3>
+              <p class="text-sm text-brown-medium mt-2 leading-relaxed">
+                Bộ 5 axit amin chuyên biệt giúp tổng hợp Collagen và Keratin tự nhiên, khóa ẩm biểu bì, làm chậm quá trình lão hóa và phục hồi vi mạch máu dưới da.
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ===================================================================
+             BƯỚC 2 (MỐC 2): NHÓM HỖ TRỢ GAN, TIM MẠCH, TUẦN HOÀN VÀ CHUYỂN HÓA
+             =================================================================== -->
+        <div class="timeline-step relative flex items-center lg:justify-between pl-[82px] sm:pl-[108px] lg:pl-0" data-step-index="1">
+          <!-- Ghi chú tóm tắt đối diện bên trái trên Desktop -->
+          <div class="hidden lg:flex w-[calc(50%-62px)] flex-col items-end pr-4 text-right">
+            <div class="p-6 rounded-2xl bg-white/55 border border-gold-border/60 backdrop-blur-sm max-w-md shadow-sm">
+              <span class="text-xs font-bold uppercase tracking-widest text-sage-accent">Giai đoạn 02</span>
+              <h3 class="font-serif text-xl font-bold text-brown-dark mt-1">Thanh Lọc Gan & Lưu Thông Huyết Mạch</h3>
+              <p class="text-sm text-brown-medium mt-2 leading-relaxed">
+                Bộ 4 axit amin hỗ trợ giải độc gan chuyên sâu, thúc đẩy sản sinh oxit nitric giúp giãn mạch tự nhiên, ổn định huyết áp và điều hòa đường huyết.
+              </p>
+            </div>
+          </div>
+
+          <!-- Thẻ nội dung bên phải trục SVG trên Desktop -->
+          <div class="w-full lg:w-[calc(50%-62px)]">
+            <article class="timeline-step-card info-card relative flex flex-col justify-between pt-14 sm:pt-16 px-5 sm:px-7 pb-0 overflow-visible" data-card-index="1">
+
+              <!-- Badge tròn nổi phía trên đỉnh thẻ -->
+              <div class="top-badge-circle absolute -top-11 left-1/2 -translate-x-1/2 w-22 h-22 sm:w-[98px] sm:h-[98px] rounded-full bg-[#E8EFE0] border-2 border-white shadow-md flex items-center justify-center overflow-hidden">
+                <!-- SVG Minh họa lá gan khỏe mạnh kèm biểu tượng khiên dấu cộng xanh lá -->
+                <svg class="w-20 h-20 sm:w-22 sm:h-22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="liverGrad" x1="20" y1="25" x2="75" y2="70" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#D97B6C"/>
+                      <stop offset="55%" stop-color="#B95447"/>
+                      <stop offset="100%" stop-color="#933A30"/>
+                    </linearGradient>
+                    <linearGradient id="shieldGrad" x1="55" y1="50" x2="82" y2="82" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#96B86B"/>
+                      <stop offset="100%" stop-color="#698B42"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="50" cy="50" r="46" fill="#E8EFE0"/>
+                  <path d="M23 58 C20 42, 30 30, 48 31 C62 32, 76 32, 79 38 C81 43, 73 50, 62 54 C53 57, 46 58, 39 65 C33 71, 25 71, 23 58 Z" fill="url(#liverGrad)" stroke="#7D2E25" stroke-width="1.5"/>
+                  <path d="M51 32 C49 41, 48 48, 49 55" stroke="#8A342A" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M29 44 C33 37, 41 35, 47 36" stroke="#F0A599" stroke-width="2" stroke-linecap="round" opacity="0.65"/>
+                  <path d="M68 51 L80 55.5 L80 66 C80 73.5 74.8 79.2 68 81.5 C61.2 79.2 56 73.5 56 66 L56 55.5 L68 51 Z" fill="url(#shieldGrad)" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M68 60.5 V71.5 M62.5 66 H73.5" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <!-- Phần nội dung trên & danh sách hoạt chất -->
+              <div>
+                <div class="text-center mb-1">
+                  <span class="inline-block px-3 py-0.5 rounded-full bg-sage-bg text-brown-medium text-[11px] font-bold uppercase tracking-wider">Nhóm 02 • Thải độc & Tuần hoàn</span>
+                </div>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-brown-dark text-center leading-snug px-1">
+                  Nhóm hỗ trợ gan, tim mạch, tuần hoàn và chuyển hóa
+                </h2>
+                <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-gold-border/60 to-transparent my-4"></div>
+
+                <!-- Danh sách 4 axit amin cột 2 -->
+                <ul class="space-y-3" id="list-col-2">
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Glycine"
+                      data-group="Nhóm hỗ trợ gan, tim mạch, tuần hoàn và chuyển hóa"
+                      data-tags="liver"
+                      data-short="Hỗ trợ ngăn ngừa tích tụ liên quan xơ vữa động mạch, cải thiện sử dụng oxit nitric giúp tăng lưu lượng máu và giảm huyết áp"
+                      data-detail="Glycine hỗ trợ làm giảm stress oxy hóa trong thành mạch, hạn chế sự tích tụ mảng bám liên quan đến xơ vữa động mạch, đồng thời tối ưu hóa khả năng sử dụng oxit nitric (NO) nội sinh giúp giãn mạch tự nhiên, tăng cường lưu thông máu và ổn định huyết áp.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[122px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Glycine
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-0.5">
+                      Hỗ trợ ngăn ngừa tích tụ liên quan xơ vữa động mạch, cải thiện sử dụng oxit nitric giúp tăng lưu lượng máu và giảm huyết áp
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Arginine"
+                      data-group="Nhóm hỗ trợ gan, tim mạch, tuần hoàn và chuyển hóa"
+                      data-tags="liver"
+                      data-short="Bổ gan, tăng cường chức năng gan, bảo vệ và giải độc gan"
+                      data-detail="Arginine đóng vai trò trung tâm trong chu trình urê tại gan, giúp trung hòa và đào thải amoniac cùng các độc tố chuyển hóa ra khỏi cơ thể, từ đó bảo vệ nhu mô gan và tăng cường chức năng giải độc gan hiệu quả.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[122px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Arginine
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-0.5">
+                      Bổ gan, tăng cường chức năng gan, bảo vệ và giải độc gan
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Methionine"
+                      data-group="Nhóm hỗ trợ gan, tim mạch, tuần hoàn và chuyển hóa"
+                      data-tags="liver"
+                      data-short="Ngăn ngừa tổn thương gan khi ngộ độc acetaminophen, điều trị rối loạn gan, cải thiện lành vết thương và nhiều tác dụng khác"
+                      data-detail="Methionine là axit amin thiết yếu cung cấp nhóm methyl và lưu huỳnh để tổng hợp Glutathione nội sinh, giúp ngăn ngừa hoại tử tế bào gan do ngộ độc acetaminophen (paracetamol), hỗ trợ điều trị các rối loạn chuyển hóa gan và thúc đẩy phục hồi mô tổn thương.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[122px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Methionine
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-0.5">
+                      Ngăn ngừa tổn thương gan khi ngộ độc acetaminophen, điều trị rối loạn gan, cải thiện lành vết thương và nhiều tác dụng khác
+                    </span>
+                  </li>
+
+                  <li class="amino-row p-2 cursor-pointer flex items-start gap-3"
+                      data-name="Isoleucine"
+                      data-group="Nhóm hỗ trợ gan, tim mạch, tuần hoàn và chuyển hóa"
+                      data-tags="liver"
+                      data-short="Điều chỉnh đường huyết, chống tiểu đường"
+                      data-detail="Isoleucine thuộc nhóm axit amin chuỗi nhánh (BCAA) có khả năng kích thích các tế bào cơ bắp hấp thụ glucose trực tiếp từ máu để chuyển hóa thành năng lượng, qua đó giúp điều hòa nồng độ đường huyết ổn định và hỗ trợ phòng ngừa tiểu đường.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[122px] py-1.5 px-2.5 rounded-full text-center text-xs sm:text-[13px] font-bold tracking-tight">
+                      Isoleucine
+                    </span>
+                    <span class="text-xs sm:text-[13.5px] text-brown-dark leading-snug pt-1">
+                      Điều chỉnh đường huyết, chống tiểu đường
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Minh họa đáy thẻ 2: Dòng tuần hoàn, giọt huyết thanh đỏ/vàng & tế bào hồng cầu trôi nổi -->
+              <div class="mt-5 -mx-5 sm:-mx-7 rounded-b-[22px] overflow-hidden">
+                <svg class="w-full h-28 sm:h-32 block" viewBox="0 0 400 145" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="bloodWave1" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#F6D5CE" stop-opacity="0.4"/>
+                      <stop offset="50%" stop-color="#EBA89C" stop-opacity="0.75"/>
+                      <stop offset="100%" stop-color="#F4C7BD" stop-opacity="0.45"/>
+                    </linearGradient>
+                    <linearGradient id="bloodWave2" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#E79C8E" stop-opacity="0.55"/>
+                      <stop offset="50%" stop-color="#D77B6B" stop-opacity="0.7"/>
+                      <stop offset="100%" stop-color="#EAA79B" stop-opacity="0.5"/>
+                    </linearGradient>
+                    <radialGradient id="bloodDropGrad" cx="35%" cy="32%" r="70%">
+                      <stop offset="0%" stop-color="#FFCEC7"/>
+                      <stop offset="30%" stop-color="#D44D3E"/>
+                      <stop offset="80%" stop-color="#9E2419"/>
+                      <stop offset="100%" stop-color="#70130B"/>
+                    </radialGradient>
+                    <radialGradient id="rbcGrad" cx="40%" cy="35%" r="65%">
+                      <stop offset="0%" stop-color="#F07B6D"/>
+                      <stop offset="65%" stop-color="#C33E30"/>
+                      <stop offset="100%" stop-color="#8A1F14"/>
+                    </radialGradient>
+                  </defs>
+                  <path d="M0 95 C90 120, 180 75, 280 95 C340 107, 375 95, 400 88 L400 145 L0 145 Z" fill="url(#bloodWave1)"/>
+                  <path d="M0 112 C110 85, 220 132, 330 105 C365 96, 385 102, 400 106 L400 145 L0 145 Z" fill="url(#bloodWave2)"/>
+                  <path d="M0 95 C90 120, 180 75, 280 95 C340 107, 375 95, 400 88" stroke="#E29587" stroke-width="1.5" fill="none" opacity="0.6"/>
+                  <g>
+                    <path d="M114 48 C114 48, 138 82, 138 97 C138 110, 127 120, 114 120 C101 120, 90 110, 90 97 C90 82, 114 48, 114 48 Z" fill="url(#bloodDropGrad)"/>
+                    <ellipse cx="106" cy="91" rx="3.5" ry="9.5" transform="rotate(-18 106 91)" fill="#FFFFFF" opacity="0.65"/>
+                  </g>
+                  <g transform="translate(215, 114) rotate(-14)">
+                    <ellipse cx="0" cy="0" rx="22" ry="13" fill="url(#rbcGrad)"/>
+                    <ellipse cx="0" cy="0" rx="12" ry="6.5" fill="#8C1D13" opacity="0.7"/>
+                    <path d="M-15 -5 Q0 -11 15 -5" stroke="#F8A89E" stroke-width="1.5" fill="none" opacity="0.7"/>
+                  </g>
+                  <g transform="translate(275, 86) rotate(12)">
+                    <ellipse cx="0" cy="0" rx="18" ry="10.5" fill="url(#rbcGrad)"/>
+                    <ellipse cx="0" cy="0" rx="10" ry="5" fill="#8C1D13" opacity="0.7"/>
+                    <path d="M-12 -4 Q0 -9 12 -4" stroke="#F8A89E" stroke-width="1.3" fill="none" opacity="0.7"/>
+                  </g>
+                  <g transform="translate(335, 108) rotate(-8)">
+                    <ellipse cx="0" cy="0" rx="15" ry="9" fill="url(#rbcGrad)"/>
+                    <ellipse cx="0" cy="0" rx="8" ry="4.5" fill="#8C1D13" opacity="0.7"/>
+                    <path d="M-10 -3.5 Q0 -7.5 10 -3.5" stroke="#F8A89E" stroke-width="1.2" fill="none" opacity="0.65"/>
+                  </g>
+                </svg>
+              </div>
+            </article>
+          </div>
+        </div>
+
+
+        <!-- ===================================================================
+             BƯỚC 3 (MỐC 3): NHÓM HỖ TRỢ THẦN KINH, GIẤC NGỦ, TRÍ NHỚ VÀ VẬN ĐỘNG
+             =================================================================== -->
+        <div class="timeline-step relative flex items-center lg:justify-between pl-[82px] sm:pl-[108px] lg:pl-0" data-step-index="2">
+          <!-- Thẻ nội dung bên trái trục SVG trên Desktop -->
+          <div class="w-full lg:w-[calc(50%-62px)]">
+            <article class="timeline-step-card info-card relative flex flex-col justify-between pt-14 sm:pt-16 px-5 sm:px-7 pb-0 overflow-visible" data-card-index="2">
+
+              <!-- Badge tròn nổi phía trên đỉnh thẻ -->
+              <div class="top-badge-circle absolute -top-11 left-1/2 -translate-x-1/2 w-22 h-22 sm:w-[98px] sm:h-[98px] rounded-full bg-[#EAE6F5] border-2 border-white shadow-md flex items-center justify-center overflow-hidden">
+                <!-- SVG Minh họa bộ não với nếp nhăn mềm mại & ngôi sao lấp lánh -->
+                <svg class="w-20 h-20 sm:w-22 sm:h-22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="50" cy="50" r="46" fill="#EAE6F5"/>
+                  <path d="M32 61 C24 60, 20 53, 22 46 C20 39, 25 32, 32 31 C35 24, 44 21, 51 24 C58 21, 67 24, 70 31 C77 32, 81 39, 79 46 C81 53, 77 60, 69 61 C67 66, 60 68, 55 65 L55 73 C55 76, 48 76, 48 72 L48 64 C42 66, 35 65, 32 61 Z" fill="#DFD5F2" stroke="#6B5299" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M51 24 C50 38, 50 50, 51 63" stroke="#6B5299" stroke-width="1.6" stroke-linecap="round"/>
+                  <path d="M32 37 C37 35, 42 38, 42 43 C42 47, 36 48, 33 46" stroke="#6B5299" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M29 52 C34 51, 39 54, 38 58" stroke="#6B5299" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M69 37 C64 35, 59 38, 59 43 C59 47, 65 48, 68 46" stroke="#6B5299" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M71 52 C66 51, 61 54, 62 58" stroke="#6B5299" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M40 29 C43 32, 47 32, 49 29" stroke="#6B5299" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M61 29 C58 32, 54 32, 52 29" stroke="#6B5299" stroke-width="1.4" stroke-linecap="round"/>
+                  <path class="animate-pulse-glow" d="M84 42 L85.5 46 L89.5 47.5 L85.5 49 L84 53 L82.5 49 L78.5 47.5 L82.5 46 Z" fill="#9D88C7"/>
+                  <path class="animate-pulse-glow" style="animation-delay: 1s;" d="M16 58 L17.2 61 L20.2 62.2 L17.2 63.4 L16 66.4 L14.8 63.4 L11.8 62.2 L14.8 61 Z" fill="#B5A4D8"/>
+                </svg>
+              </div>
+
+              <!-- Phần nội dung trên & danh sách hoạt chất -->
+              <div>
+                <div class="text-center mb-1">
+                  <span class="inline-block px-3 py-0.5 rounded-full bg-lavender-bg text-brown-medium text-[11px] font-bold uppercase tracking-wider">Nhóm 03 • Trí não & Thể lực</span>
+                </div>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-brown-dark text-center leading-snug px-1">
+                  Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động
+                </h2>
+                <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-gold-border/60 to-transparent my-3.5"></div>
+
+                <!-- Danh sách 8 axit amin cột 3 -->
+                <ul class="space-y-1.5" id="list-col-3">
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Histidine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="neuro"
+                      data-short="Cải thiện chức năng thận, truyền thần kinh, dịch tiết dạ dày, miễn dịch, sửa chữa mô, tạo tế bào máu và bảo vệ tế bào thần kinh"
+                      data-detail="Histidine là tiền chất tổng hợp Histamine — chất dẫn truyền thần kinh quan trọng giúp điều hòa chu kỳ thức ngủ, phản ứng miễn dịch và tiết dịch vị tiêu hóa. Ngoài ra, Histidine còn duy trì vỏ bọc myelin bảo vệ tế bào thần kinh, hỗ trợ tạo hồng cầu và sửa chữa mô tổn thương.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Histidine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug">
+                      Cải thiện chức năng thận, truyền thần kinh, dịch tiết dạ dày, miễn dịch, sửa chữa mô, tạo tế bào máu và bảo vệ tế bào thần kinh
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Threonine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="neuro liver"
+                      data-short="Hỗ trợ thần kinh trung ương, tim mạch, gan và hệ miễn dịch"
+                      data-detail="Threonine tập trung với nồng độ cao trong hệ thần kinh trung ương và cơ tim. Hoạt chất này hỗ trợ duy trì cân bằng protein trong cơ thể, ngăn ngừa tích tụ mỡ tại gan, tăng cường sản xuất kháng thể miễn dịch và hỗ trợ dẫn truyền xung thần kinh ổn định.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Threonine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug">
+                      Hỗ trợ thần kinh trung ương, tim mạch, gan và hệ miễn dịch
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Tyrosine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="neuro"
+                      data-short="Cải thiện trí nhớ"
+                      data-detail="Tyrosine là tiền chất trực tiếp tổng hợp các chất dẫn truyền thần kinh thiết yếu như Dopamine, Norepinephrine và Epinephrine, giúp tăng cường sự tỉnh táo, khả năng tập trung cao độ và cải thiện trí nhớ hiệu quả ngay cả trong điều kiện căng thẳng.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Tyrosine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug pt-0.5">
+                      Cải thiện trí nhớ
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Valine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="neuro muscle"
+                      data-short="Cải thiện mất ngủ, giảm lo lắng"
+                      data-detail="Valine là một axit amin chuỗi nhánh (BCAA) có tác dụng làm dịu hệ thần kinh trung ương, giảm bớt căng thẳng lo âu, hỗ trợ phục hồi mô cơ sau vận động và giúp người dùng dễ đi vào giấc ngủ sâu tự nhiên.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Valine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug pt-0.5">
+                      Cải thiện mất ngủ, giảm lo lắng
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Phenylalanine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="neuro"
+                      data-short="Hỗ trợ điều trị trầm cảm, ADHD, Parkinson, đau mạn tính, viêm khớp, viêm khớp dạng thấp, triệu chứng cai rượu"
+                      data-detail="Phenylalanine tham gia sản xuất các chất dẫn truyền thần kinh điều hòa tâm trạng và giảm đau nội sinh (endorphin), qua đó hỗ trợ tích cực trong kiểm soát trầm cảm, rối loạn thiếu chú ý (ADHD), bệnh Parkinson, đau mạn tính, viêm khớp và hội chứng cai rượu.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Phenylalanine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug">
+                      Hỗ trợ điều trị trầm cảm, ADHD, Parkinson, đau mạn tính, viêm khớp, viêm khớp dạng thấp, triệu chứng cai rượu
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Alanine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="muscle"
+                      data-short="Giảm mỏi cơ"
+                      data-detail="Alanine (đặc biệt qua chu trình Glucose-Alanine và tổng hợp Carnosine trong mô cơ) giúp trung hòa sự tích tụ axit lactic khi vận động cường độ cao, kéo dài sức bền và giảm thiểu tình trạng đau mỏi cơ bắp.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Alanine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug pt-0.5">
+                      Giảm mỏi cơ
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Leucine"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="muscle"
+                      data-short="Giảm mỏi cơ"
+                      data-detail="Leucine là axit amin quan trọng nhất trong việc kích hoạt con đường mTOR thúc đẩy tổng hợp protein cơ bắp, ngăn ngừa dị hóa cơ, tăng tốc độ phục hồi năng lượng và giảm mỏi cơ rõ rệt sau tập luyện.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Leucine
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug pt-0.5">
+                      Giảm mỏi cơ
+                    </span>
+                  </li>
+
+                  <li class="amino-row py-1.5 px-2 cursor-pointer flex items-start gap-2.5"
+                      data-name="Acid aspartic"
+                      data-group="Nhóm hỗ trợ thần kinh, giấc ngủ, trí nhớ và vận động"
+                      data-tags="neuro muscle"
+                      data-short="Kích thích tiền liệt tuyến"
+                      data-detail="Acid aspartic tham gia vào chu trình tạo năng lượng tế bào (chu trình Krebs), hỗ trợ điều hòa hormone sinh dục nam nội sinh, kích thích hoạt động khỏe mạnh của tuyến tiền liệt và nâng cao thể lực vận động.">
+                    <span class="amino-pill shrink-0 w-[114px] sm:w-[124px] py-1 px-2 rounded-full text-center text-xs sm:text-[12.5px] font-bold tracking-tight">
+                      Acid aspartic
+                    </span>
+                    <span class="text-xs sm:text-[13px] text-brown-dark leading-snug pt-0.5">
+                      Kích thích tiền liệt tuyến
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Minh họa đáy thẻ 3: Mặt trăng khuyết màu vàng với chữ "zZz" trên mây trắng & quả tạ tập luyện -->
+              <div class="mt-4 -mx-5 sm:-mx-7 rounded-b-[22px] overflow-hidden">
+                <svg class="w-full h-24 sm:h-28 block" viewBox="0 0 400 125" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="lavenderWave" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#E4DDF3" stop-opacity="0.5"/>
+                      <stop offset="50%" stop-color="#D5CBEB" stop-opacity="0.75"/>
+                      <stop offset="100%" stop-color="#E6E0F4" stop-opacity="0.55"/>
+                    </linearGradient>
+                    <linearGradient id="moonGrad" x1="80" y1="20" x2="120" y2="85" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#FFF2B2"/>
+                      <stop offset="55%" stop-color="#F7D266"/>
+                      <stop offset="100%" stop-color="#E3B13B"/>
+                    </linearGradient>
+                    <linearGradient id="dumbbellMetal" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#9A96A6"/>
+                      <stop offset="45%" stop-color="#6B6778"/>
+                      <stop offset="100%" stop-color="#484454"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0 78 C85 95, 195 62, 290 82 C345 93, 380 80, 400 74 L400 125 L0 125 Z" fill="url(#lavenderWave)"/>
+                  <g fill="#FFFFFF" opacity="0.92">
+                    <circle cx="88" cy="95" r="14"/>
+                    <circle cx="106" cy="91" r="17"/>
+                    <circle cx="126" cy="94" r="15"/>
+                    <circle cx="142" cy="98" r="11"/>
+                    <rect x="82" y="94" width="64" height="15" rx="7.5"/>
+                  </g>
+                  <path d="M112 30 C92 33, 81 51, 86 70 C90 86, 106 96, 124 93 C111 89, 102 77, 103 62 C104 48, 113 37, 125 34 C121 31, 116 30, 112 30 Z" fill="url(#moonGrad)"/>
+                  <path d="M93 62 Q96 65 99 62" stroke="#B88228" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="96" cy="68" r="2.5" fill="#F29E8E" opacity="0.6"/>
+                  <g class="animate-zzz" fill="#7D69A8" font-family="sans-serif" font-weight="800">
+                    <text x="115" y="45" font-size="11" opacity="0.75">z</text>
+                    <text x="123" y="37" font-size="14" opacity="0.9">Z</text>
+                    <text x="134" y="29" font-size="11" opacity="0.75">z</text>
+                  </g>
+                  <g transform="translate(268, 52)">
+                    <rect x="0" y="12" width="11" height="44" rx="5.5" fill="url(#dumbbellMetal)"/>
+                    <rect x="13" y="5" width="13" height="58" rx="6.5" fill="url(#dumbbellMetal)"/>
+                    <rect x="15" y="10" width="3" height="48" rx="1.5" fill="#B5B1C2" opacity="0.5"/>
+                    <rect x="26" y="28" width="44" height="12" rx="3" fill="#5D596A"/>
+                    <rect x="32" y="28" width="32" height="4" fill="#9692A3" opacity="0.5"/>
+                    <rect x="70" y="5" width="13" height="58" rx="6.5" fill="url(#dumbbellMetal)"/>
+                    <rect x="72" y="10" width="3" height="48" rx="1.5" fill="#B5B1C2" opacity="0.5"/>
+                    <rect x="85" y="12" width="11" height="44" rx="5.5" fill="url(#dumbbellMetal)"/>
+                  </g>
+                </svg>
+              </div>
+            </article>
+          </div>
+
+          <!-- Ghi chú tóm tắt đối diện trên Desktop -->
+          <div class="hidden lg:flex w-[calc(50%-62px)] flex-col items-start pl-4 text-left">
+            <div class="p-6 rounded-2xl bg-white/55 border border-gold-border/60 backdrop-blur-sm max-w-md shadow-sm">
+              <span class="text-xs font-bold uppercase tracking-widest text-sage-accent">Giai đoạn 03</span>
+              <h3 class="font-serif text-xl font-bold text-brown-dark mt-1">An Thần, Trí Nhớ & Phục Hồi Cơ Bắp</h3>
+              <p class="text-sm text-brown-medium mt-2 leading-relaxed">
+                Bộ 8 axit amin nuôi dưỡng hệ thần kinh trung ương, tối ưu chất dẫn truyền Dopamine & Endorphin giúp ngủ sâu, tăng cường trí nhớ và giảm mỏi cơ sau vận động.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Chú thích nhỏ cuối trang -->
+    <footer class="mt-12 text-center text-xs sm:text-sm text-brown-light flex flex-col sm:flex-row items-center justify-center gap-2">
+      <span>💡 Mẹo tương tác: Cuộn trang hoặc nhấp vào các nút tròn <strong>1 • 2 • 3</strong> trên trục tiến trình để di chuyển mượt mà giữa các nhóm, và nhấp vào từng Axit Amin để đọc phân tích chuyên sâu.</span>
+    </footer>
+  </main>
+
+  <!-- Modal / Hộp thoại chi tiết khi nhấp vào từng Axit Amin -->
+  <div id="amino-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-brown-dark/40 backdrop-blur-sm opacity-0 transition-opacity duration-250" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div id="amino-modal-card" class="relative w-full max-w-lg rounded-3xl bg-[#FFFDF9] border border-gold-border/80 shadow-2xl p-6 sm:p-8 transform scale-95 transition-transform duration-250">
+      <button id="close-modal" type="button" aria-label="Đóng hộp thoại" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-cream-base hover:bg-peach-pill text-brown-dark flex items-center justify-center transition-colors">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach-bg/80 text-brown-medium text-xs font-semibold mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-gold-accent"></span>
+        <span id="modal-group">Nhóm Axit Amin</span>
+      </div>
+
+      <h3 id="modal-title" class="font-serif text-2xl sm:text-3xl font-bold text-brown-dark">
+        Tên Axit Amin
+      </h3>
+
+      <div class="mt-4 p-3.5 rounded-2xl bg-cream-light border border-gold-border/50">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-brown-light mb-1">Công dụng chính</div>
+        <p id="modal-short" class="text-sm font-semibold text-brown-dark leading-relaxed"></p>
+      </div>
+
+      <div class="mt-4">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-brown-light mb-1.5">Cơ chế & Phân tích chuyên sâu</div>
+        <p id="modal-detail" class="text-sm text-brown-medium leading-relaxed"></p>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button id="modal-done-btn" type="button" class="px-5 py-2.5 rounded-full bg-brown-dark hover:bg-brown-medium text-white text-xs sm:text-sm font-semibold shadow-sm transition-colors">
+          Đã hiểu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script điều khiển hiệu ứng SVG Scroll-Driven Timeline, 3D Tilt, Lọc, Tìm kiếm & Modal -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Điều khiển SVG Scroll-Driven Timeline Progress Bar (#lineActivated & #circle1..3)
+      const timelineWrapper = document.getElementById('timeline-wrapper');
+      const lineDeactivated = document.getElementById('lineDeactivated');
+      const lineDeactivatedBorder = document.getElementById('lineDeactivatedBorder');
+      const lineActivated = document.getElementById('lineActivated');
+      const steps = document.querySelectorAll('.timeline-step');
+      const stepCards = document.querySelectorAll('.timeline-step-card');
+
+      const nodes = [
+        {
+          circle: document.getElementById('circle1'),
+          text: document.getElementById('text1'),
+          ring: document.getElementById('ring1'),
+          y: 100
+        },
+        {
+          circle: document.getElementById('circle2'),
+          text: document.getElementById('text2'),
+          ring: document.getElementById('ring2'),
+          y: 400
+        },
+        {
+          circle: document.getElementById('circle3'),
+          text: document.getElementById('text3'),
+          ring: document.getElementById('ring3'),
+          y: 700
+        }
+      ];
+
+      // Tính toán lại tọa độ Y của các vòng tròn mốc sao cho khớp chính xác với tâm từng bước nội dung
+      function syncTimelineGeometry() {
+        if (!timelineWrapper || steps.length === 0) return;
+        const wrapperRect = timelineWrapper.getBoundingClientRect();
+
+        steps.forEach((step, idx) => {
+          const stepRect = step.getBoundingClientRect();
+          // Đặt vị trí vòng tròn mốc ngang tầm phần đầu của thẻ nội dung
+          const relativeY = (stepRect.top - wrapperRect.top) + Math.min(stepRect.height * 0.28, 120);
+          nodes[idx].y = Math.max(40, relativeY);
+
+          const node = nodes[idx];
+          if (node.circle) node.circle.setAttribute('cy', node.y);
+          if (node.text) node.text.setAttribute('y', node.y);
+          if (node.ring) node.ring.setAttribute('cy', node.y);
+        });
+
+        const startY = nodes[0].y;
+        const endY = nodes[nodes.length - 1].y;
+
+        [lineDeactivated, lineDeactivatedBorder, lineActivated].forEach(line => {
+          if (line) {
+            line.setAttribute('y1', startY);
+          }
+        });
+        if (lineDeactivated) lineDeactivated.setAttribute('y2', endY);
+        if (lineDeactivatedBorder) lineDeactivatedBorder.setAttribute('y2', endY);
+      }
+
+      // Cập nhật độ dài #lineActivated và trạng thái active của từng vòng tròn khi cuộn trang
+      function updateScrollProgress() {
+        if (!timelineWrapper) return;
+        const wrapperRect = timelineWrapper.getBoundingClientRect();
+        const startY = nodes[0].y;
+        const endY = nodes[nodes.length - 1].y;
+
+        // Điểm kích hoạt nằm ở khoảng 58% chiều cao màn hình (vùng đọc tự nhiên của mắt)
+        const triggerViewportY = window.innerHeight * 0.58;
+        const currentProgressY = triggerViewportY - wrapperRect.top;
+
+        // Giới hạn giá trị y2 của đường line trong khoảng [startY, endY]
+        const clampedY2 = Math.max(startY, Math.min(endY, currentProgressY));
+        if (lineActivated) {
+          lineActivated.setAttribute('y2', clampedY2.toFixed(2));
+        }
+
+        // Kiểm tra đường line đã chạm tới từng mốc vòng tròn hay chưa
+        nodes.forEach((node, idx) => {
+          const isReached = clampedY2 >= node.y - 6;
+          const card = stepCards[idx];
+
+          if (isReached) {
+            node.circle.setAttribute('fill', 'url(#gradient)');
+            node.circle.setAttribute('stroke', '#FFFFFF');
+            node.circle.setAttribute('filter', 'url(#nodeGlow)');
+            node.circle.classList.add('is-reached');
+
+            node.text.setAttribute('fill', '#FFFFFF');
+            node.text.classList.add('is-reached');
+
+            node.ring.setAttribute('opacity', '0.75');
+            node.ring.classList.add('is-reached');
+
+            if (card) card.classList.add('is-active');
+          } else {
+            node.circle.setAttribute('fill', '#FFFFFF');
+            node.circle.setAttribute('stroke', '#D6BFA7');
+            node.circle.removeAttribute('filter');
+            node.circle.classList.remove('is-reached');
+
+            node.text.setAttribute('fill', '#6B503B');
+            node.text.classList.remove('is-reached');
+
+            node.ring.setAttribute('opacity', '0');
+            node.ring.classList.remove('is-reached');
+
+            if (card) card.classList.remove('is-active');
+          }
+        });
+      }
+
+      // Hỗ trợ click vào từng mốc vòng tròn 1, 2, 3 trên trục SVG để cuộn mượt tới nhóm tương ứng
+      document.querySelectorAll('[data-target-step]').forEach(groupEl => {
+        groupEl.addEventListener('click', () => {
+          const targetIdx = parseInt(groupEl.getAttribute('data-target-step'), 10);
+          const targetStep = steps[targetIdx];
+          if (targetStep) {
+            const topOffset = targetStep.getBoundingClientRect().top + window.scrollY - 110;
+            window.scrollTo({
+              top: Math.max(0, topOffset),
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // Chạy đồng bộ tọa độ ban đầu và gắn sự kiện scroll / resize mượt mà bằng requestAnimationFrame
+      let ticking = false;
+      function onScrollOrResize() {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            syncTimelineGeometry();
+            updateScrollProgress();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+      syncTimelineGeometry();
+      updateScrollProgress();
+      window.addEventListener('scroll', onScrollOrResize, { passive: true });
+      window.addEventListener('resize', onScrollOrResize, { passive: true });
+      window.addEventListener('load', () => {
+        syncTimelineGeometry();
+        updateScrollProgress();
+      });
+
+      // 2. Hiệu ứng nghiêng 3D nhẹ theo con trỏ chuột (Card Tilt & Lift) trên màn hình Desktop
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if (!isTouchDevice) {
+        stepCards.forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -1.8;
+            const rotateY = ((x - centerX) / centerX) * 1.8;
+
+            card.style.transform = `perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+          });
+        });
+      }
+
+      // 3. Hiệu ứng Parallax nhẹ cho họa tiết phân tử ở góc trên bên phải
+      const heroDecor = document.getElementById('hero-decor');
+      if (!isTouchDevice && heroDecor) {
+        window.addEventListener('mousemove', (e) => {
+          const moveX = (e.clientX / window.innerWidth - 0.5) * -14;
+          const moveY = (e.clientY / window.innerHeight - 0.5) * -10;
+          heroDecor.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+        });
+      }
+
+      // 4. Modal chi tiết khi nhấp vào từng Axit Amin
+      const aminoRows = document.querySelectorAll('.amino-row');
+      const modal = document.getElementById('amino-modal');
+      const modalCard = document.getElementById('amino-modal-card');
+      const closeModalBtn = document.getElementById('close-modal');
+      const modalDoneBtn = document.getElementById('modal-done-btn');
+
+      const modalGroup = document.getElementById('modal-group');
+      const modalTitle = document.getElementById('modal-title');
+      const modalShort = document.getElementById('modal-short');
+      const modalDetail = document.getElementById('modal-detail');
+
+      function openModal(row) {
+        if (!modal || !modalCard || !modalGroup || !modalTitle || !modalShort || !modalDetail) return;
+        modalGroup.textContent = row.dataset.group || '';
+        modalTitle.textContent = row.dataset.name || '';
+        modalShort.textContent = row.dataset.short || '';
+        modalDetail.textContent = row.dataset.detail || '';
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        // Kích hoạt transition mượt
+        requestAnimationFrame(() => {
+          modal.classList.remove('opacity-0');
+          modalCard.classList.remove('scale-95');
+          modalCard.classList.add('scale-100');
+        });
+      }
+
+      function closeModal() {
+        if (!modal || !modalCard) return;
+        modal.classList.add('opacity-0');
+        modalCard.classList.remove('scale-100');
+        modalCard.classList.add('scale-95');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }, 250);
+      }
+
+      aminoRows.forEach(row => {
+        row.addEventListener('click', () => openModal(row));
+      });
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+      if (modalDoneBtn) modalDoneBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+          closeModal();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

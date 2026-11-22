@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Mail, Menu, Phone, Search, X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -44,64 +44,31 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 }
 
 function ShopBanner() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(true);
-  const [box, setBox] = useState({ top: 96, height: 480, width: 220 });
-  const decided = useRef(false);
-
-  useEffect(() => {
-    decided.current = false;
-    const measure = () => {
-      const image = document.querySelector("[data-recipe-hero]");
-      if (!(image instanceof HTMLElement)) {
-        const height = Math.min(520, window.innerHeight - 150);
-        setBox({ top: 96, height, width: Math.min(240, Math.round(height * 0.72)) });
-        return;
-      }
-      const rect = image.getBoundingClientRect();
-      const gap = Math.max(0, window.innerWidth - rect.right - 64);
-      const height = Math.max(180, rect.height);
-      const width = Math.min(gap, Math.round(height * 0.9));
-      const next = { top: rect.top, height, width: Math.max(0, width) };
-      setBox((prev) =>
-        Math.abs(prev.top - next.top) < 1 && Math.abs(prev.height - next.height) < 1 && prev.width === next.width
-          ? prev
-          : next,
-      );
-      if (!decided.current) {
-        decided.current = true;
-        setOpen(width >= 160);
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    window.addEventListener("scroll", measure, { passive: true });
-    return () => {
-      window.removeEventListener("resize", measure);
-      window.removeEventListener("scroll", measure);
-    };
-  }, [pathname]);
-
   const spots = [
     { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: "55%", height: "9%" },
     { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: "64.5%", height: "9%" },
     { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: "76%", height: "12%" },
   ];
-  const shown = open && box.width >= 120;
 
   return (
-    <div className="fixed z-40 flex items-start" style={{ top: box.top, right: 12, height: box.height }}>
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-label={shown ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
-        className="mt-3 grid size-9 shrink-0 place-items-center rounded-full bg-soil text-paper shadow-md transition hover:-translate-y-0.5 hover:bg-bark"
+    <div className="fixed top-1/2 right-0 z-40 -translate-y-1/2">
+      <div
+        className={cn(
+          "flex items-center transition-transform duration-300 ease-out",
+          open ? "translate-x-0" : "translate-x-[calc(100%-2.75rem)]",
+        )}
       >
-        {shown ? <ChevronRight className="size-4" aria-hidden="true" /> : <ChevronLeft className="size-4" aria-hidden="true" />}
-      </button>
-      <div className="overflow-hidden transition-[width] duration-300 ease-out" style={{ width: shown ? box.width : 0 }}>
-        <div className="relative h-full overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl" style={{ width: box.width }}>
-          <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="block h-full w-full object-fill" />
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          aria-label={open ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
+          className="mr-1 grid size-11 shrink-0 place-items-center rounded-full bg-soil text-paper shadow-md"
+        >
+          {open ? <ChevronRight className="size-5" aria-hidden="true" /> : <ChevronLeft className="size-5" aria-hidden="true" />}
+        </button>
+        <div className="relative mr-2 aspect-[360/500] w-[min(68vw,230px,calc(62vh*0.72))] overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl">
+          <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="absolute inset-0 h-full w-full object-fill" />
           {spots.map((spot) => (
             <a
               key={spot.label}
@@ -110,7 +77,7 @@ function ShopBanner() {
               rel="noreferrer"
               aria-label={spot.label}
               style={{ top: spot.top, height: spot.height }}
-              className="absolute right-[8%] left-[8%] rounded-full transition hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-[0_10px_24px_rgba(0,0,0,0.28)]"
+              className="absolute right-[8%] left-[8%] z-10 rounded-full transition hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-[0_10px_24px_rgba(0,0,0,0.28)]"
             />
           ))}
         </div>
@@ -121,7 +88,7 @@ function ShopBanner() {
 
 function ContactFloat() {
   return (
-    <div className="fixed right-3 bottom-4 z-40 flex flex-col gap-2">
+    <div className="fixed right-3 bottom-4 z-50 flex flex-col gap-2">
       <a
         href="tel:+84972717779"
         aria-label="Gọi 0972 717 779"
