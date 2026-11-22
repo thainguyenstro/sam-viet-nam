@@ -15,6 +15,37 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     useCart.getState().setSearchOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const root = document.getElementById("noi-dung");
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const candidates = [...root.querySelectorAll("section, article"), ...document.querySelectorAll("footer")];
+    const targets = candidates.filter((node) => !candidates.some((other) => other !== node && node.contains(other)));
+    const seen = new WeakSet<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-in");
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
+    );
+    for (const node of targets) {
+      if (seen.has(node)) continue;
+      seen.add(node);
+      const siblings = targets.filter((item) => item.parentElement === node.parentElement);
+      const index = Math.max(0, siblings.indexOf(node));
+      if (node instanceof HTMLElement) node.style.transitionDelay = `${Math.min(index, 6) * 70}ms`;
+      const rect = node.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.9 && rect.bottom > 40;
+      node.classList.add("reveal");
+      if (inView) node.classList.add("is-in");
+      else observer.observe(node);
+    }
+    return () => observer.disconnect();
+  }, [pathname]);
+
   return (
     <>
       <a
