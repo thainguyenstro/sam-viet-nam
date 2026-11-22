@@ -119,22 +119,26 @@ function ShopBanner() {
 
 function ContactFloat() {
   return (
-    <div className="fixed right-3 bottom-4 z-50 flex flex-col gap-2">
+    <div className="fixed right-6 bottom-10 z-50 flex flex-col gap-4">
       <a
         href="tel:+84972717779"
         aria-label="Gọi 0972 717 779"
-        className="lift grid size-12 place-items-center rounded-full bg-[#22c55e] text-white shadow-lg"
+        className="contact-float relative grid size-16 place-items-center rounded-full bg-[#22c55e] text-white shadow-lg"
       >
-        <Phone className="size-5" aria-hidden="true" />
+        <span className="contact-ripple" />
+        <span className="contact-ripple contact-ripple-delay" />
+        <Phone className="contact-ring relative size-7" aria-hidden="true" />
       </a>
       <a
         href="https://zalo.me/0972717779"
         target="_blank"
         rel="noreferrer"
         aria-label="Nhắn Zalo 0972 717 779"
-        className="lift grid size-12 place-items-center rounded-full bg-[#0068ff] text-[11px] font-bold text-white shadow-lg"
+        className="contact-float relative grid size-16 place-items-center rounded-full bg-[#0068ff] text-sm font-bold text-white shadow-lg"
       >
-        Zalo
+        <span className="contact-ripple" />
+        <span className="contact-ripple contact-ripple-delay" />
+        <span className="relative">Zalo</span>
       </a>
     </div>
   );

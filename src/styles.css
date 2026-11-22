@@ -77,6 +77,76 @@
       transform: none;
     }
   }
+  .contact-float {
+    animation: contact-bob 2.8s ease-in-out infinite;
+  }
+  .contact-ripple {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    border: 2px solid currentColor;
+    opacity: 0;
+    animation: contact-ripple 1.8s ease-out infinite;
+    pointer-events: none;
+  }
+  .contact-ripple-delay {
+    animation-delay: 0.7s;
+  }
+  .contact-ring {
+    animation: contact-ring 1.8s ease-in-out infinite;
+    transform-origin: 50% 40%;
+  }
+  @keyframes contact-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+  @keyframes contact-ripple {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(1.75);
+      opacity: 0;
+    }
+  }
+  @keyframes contact-ring {
+    0%,
+    45%,
+    100% {
+      transform: rotate(0);
+    }
+    50% {
+      transform: rotate(-16deg);
+    }
+    55% {
+      transform: rotate(16deg);
+    }
+    60% {
+      transform: rotate(-14deg);
+    }
+    65% {
+      transform: rotate(12deg);
+    }
+    70% {
+      transform: rotate(-6deg);
+    }
+    75% {
+      transform: rotate(3deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact-float,
+    .contact-ripple,
+    .contact-ring {
+      animation: none;
+    }
+  }
 }
 
 @layer base {

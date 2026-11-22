@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
   Brain,
-  Calculator,
   ChevronLeft,
   ChevronRight,
   Flame,
@@ -19,7 +18,7 @@ import {
 import { RecipeCard, SectionTitle } from "@/components/site/blocks";
 import { groups, nutrients, pillars, recipes, site, tagLabels, type GroupId } from "@/data/content";
 import { cn } from "@/lib/cn";
-import { btnGhost, btnPrimary, fieldClass } from "@/lib/ui";
+import { btnPrimary, fieldClass } from "@/lib/ui";
 
 const pillarIcons = [Leaf, Mountain, ShieldCheck];
 const groupIcons = [Flame, Brain, HeartPulse, Sparkles, Soup];
@@ -97,10 +96,6 @@ function HomePage() {
             <a href="#cong-thuc" className={btnPrimary}>
               Thực dưỡng từ sâm
               <ArrowRight className="size-4" aria-hidden="true" />
-            </a>
-            <a href="#nutri" className={btnGhost}>
-              <Calculator className="size-4" aria-hidden="true" />
-              Tính calo
             </a>
           </div>
         </div>
@@ -285,10 +280,6 @@ function HomePage() {
           </nav>
         ) : null}
       </section>
-
-      <section id="nutri" className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 pb-16 md:px-8">
-        <CalorieBox />
-      </section>
     </main>
   );
 }
@@ -306,84 +297,5 @@ function FilterChip({ on, onClick, label }: { on: boolean; onClick: () => void; 
     >
       {label}
     </button>
-  );
-}
-
-function CalorieBox() {
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [age, setAge] = useState("30");
-  const [sex, setSex] = useState<"nu" | "nam">("nu");
-  const h = Number(height);
-  const w = Number(weight);
-  const a = Number(age);
-  const valid = h > 80 && h < 230 && w > 25 && w < 250 && a > 10 && a < 100;
-  const bmrBase = valid ? (sex === "nam" ? 10 * w + 6.25 * h - 5 * a + 5 : 10 * w + 6.25 * h - 5 * a - 161) : null;
-  const tdee = bmrBase ? Math.round(bmrBase * 1.55) : null;
-  const proteinG = tdee ? Math.round(1.8 * w) : null;
-  const fatG = tdee ? Math.round((tdee * 0.25) / 9) : null;
-  const carbG = tdee && proteinG && fatG ? Math.max(0, Math.round((tdee - proteinG * 4 - fatG * 9) / 4)) : null;
-
-  return (
-    <div className="rounded-card border border-line bg-paper p-6 md:p-8">
-      <span className="grid size-11 place-items-center rounded-full bg-sage text-leaf">
-        <Calculator className="size-5" aria-hidden="true" />
-      </span>
-      <div className="mt-4">
-        <SectionTitle
-          kicker="Nutri-Calculator"
-          title="Bảng Năng Lượng & Dinh Dưỡng Cần Thiết Mỗi Ngày"
-          text="Bạn hãy nhập chiều cao, cân nặng, tuổi và giới tính. Kết quả sẽ cho biết một ngày cơ thể mình sẽ cần nạp bao nhiêu năng lượng và chất dinh dưỡng cần thiết"
-        />
-      </div>
-      <div className="mt-6 grid gap-3 sm:grid-cols-4">
-        <label className="text-sm text-bark">
-          Cao (cm)
-          <input
-            value={height}
-            onChange={(event) => setHeight(event.target.value)}
-            inputMode="decimal"
-            className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
-          />
-        </label>
-        <label className="text-sm text-bark">
-          Nặng (kg)
-          <input
-            value={weight}
-            onChange={(event) => setWeight(event.target.value)}
-            inputMode="decimal"
-            className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
-          />
-        </label>
-        <label className="text-sm text-bark">
-          Tuổi
-          <input
-            value={age}
-            onChange={(event) => setAge(event.target.value)}
-            inputMode="numeric"
-            className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
-          />
-        </label>
-        <label className="text-sm text-bark">
-          Giới
-          <select
-            value={sex}
-            onChange={(event) => setSex(event.target.value as "nu" | "nam")}
-            className="mt-1 h-11 w-full rounded-2xl border border-line bg-cream px-3"
-          >
-            <option value="nu">Nữ</option>
-            <option value="nam">Nam</option>
-          </select>
-        </label>
-      </div>
-      {tdee && proteinG && fatG && carbG ? (
-        <p className="mt-4 text-sm leading-relaxed text-ink">
-          Năng lượng cần thiết một ngày: khoảng {tdee} kcal. Trong đó khoảng {proteinG} g đạm, {fatG} g chất béo và{" "}
-          {carbG} g tinh bột. Đây chỉ là thông tin tham khảo, không phải chỉ định y khoa.
-        </p>
-      ) : (
-        <p className="mt-4 text-sm text-mist">Nhập chiều cao và cân nặng hợp lệ để xem mức năng lượng đối chiếu.</p>
-      )}
-    </div>
   );
 }
