@@ -74,21 +74,47 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   );
 }
 
+const shopSpots = [
+  { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: 0.51, height: 0.13 },
+  { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: 0.65, height: 0.12 },
+  { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: 0.775, height: 0.1 },
+];
+
+function ShopLinks() {
+  return (
+    <>
+      <img
+        src="/media/bang-mua-hang.png"
+        alt="Sâm dây Ngọc Linh — mua hàng"
+        className="pointer-events-none absolute inset-0 h-full w-full object-fill"
+      />
+      {shopSpots.map((spot) => (
+        <a
+          key={spot.label}
+          href={spot.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={spot.label}
+          style={{ top: `${spot.top * 100}%`, height: `${spot.height * 100}%` }}
+          className="absolute right-[8%] left-[8%] z-10 cursor-pointer rounded-full"
+        />
+      ))}
+    </>
+  );
+}
+
 function ShopBanner() {
   const [open, setOpen] = useState(true);
-  const [top, setTop] = useState(96);
-  const width = 310;
-  const spots = [
-    { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: 0.545 },
-    { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: 0.645 },
-    { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: 0.755 },
-  ];
+  const [mobileOpen, setMobileOpen] = useState(true);
+  const [top, setTop] = useState(140);
+  const width = 280;
 
   useEffect(() => {
     const measure = () => {
       const height = width / 0.72;
-      const room = window.innerHeight - height - 120;
-      const next = Math.max(88, Math.min((window.innerHeight - height) / 2, room));
+      const preferred = (window.innerHeight - height) / 2 + Math.min(72, window.innerHeight * 0.06);
+      const maxTop = window.innerHeight - height - 168;
+      const next = Math.max(88, Math.min(preferred, maxTop));
       setTop((prev) => (Math.abs(prev - next) < 1 ? prev : next));
     };
     measure();
@@ -96,43 +122,47 @@ function ShopBanner() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  const bannerHeight = width / 0.72;
-
   return (
-    <div className="fixed right-0 z-30 hidden md:block" style={{ top }}>
-      <div
-        className={cn(
-          "flex items-center transition-transform duration-300 ease-out",
-          open ? "translate-x-0" : "translate-x-[calc(100%-2.75rem)]",
-        )}
-      >
-        <button
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-label={open ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
-          className="mr-1 grid size-11 shrink-0 place-items-center rounded-full bg-soil text-paper shadow-md"
-        >
-          {open ? <ChevronRight className="size-5" aria-hidden="true" /> : <ChevronLeft className="size-5" aria-hidden="true" />}
-        </button>
+    <>
+      <div className="fixed right-0 z-30 hidden md:block" style={{ top }}>
         <div
-          className="relative mr-2 overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl"
-          style={{ width, height: bannerHeight }}
+          className={cn(
+            "flex items-center transition-transform duration-300 ease-out",
+            open ? "translate-x-0" : "translate-x-[calc(100%-2.75rem)]",
+          )}
         >
-          <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="absolute inset-0 h-full w-full object-fill" />
-          {spots.map((spot) => (
-            <a
-              key={spot.label}
-              href={spot.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={spot.label}
-              style={{ top: bannerHeight * spot.top, height: Math.max(bannerHeight * 0.1, 36) }}
-              className="absolute right-[7%] left-[7%] z-10 rounded-full"
-            />
-          ))}
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? "Ẩn bảng mua hàng" : "Mở bảng mua hàng"}
+            className="mr-1 grid size-11 shrink-0 place-items-center rounded-full bg-soil text-paper shadow-md"
+          >
+            {open ? <ChevronRight className="size-5" aria-hidden="true" /> : <ChevronLeft className="size-5" aria-hidden="true" />}
+          </button>
+          <div className="relative mr-2 aspect-[360/500] overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl" style={{ width }}>
+            <ShopLinks />
+          </div>
         </div>
       </div>
-    </div>
+
+      {mobileOpen ? (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-[#1c140f]/60 p-6 backdrop-blur-sm md:hidden">
+          <div className="relative w-[min(86vw,320px)]">
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Đóng bảng mua hàng"
+              className="absolute -top-3 -right-3 z-20 grid size-10 place-items-center rounded-full bg-paper text-bark shadow-lg"
+            >
+              <X className="size-5" aria-hidden="true" />
+            </button>
+            <div className="relative aspect-[360/500] overflow-hidden rounded-2xl shadow-2xl">
+              <ShopLinks />
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 
