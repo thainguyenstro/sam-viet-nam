@@ -87,11 +87,10 @@ function ShopBanner() {
   useEffect(() => {
     const measure = () => {
       const wide = window.innerWidth >= 1024;
-      const width = wide ? 196 : Math.min(128, Math.max(112, window.innerWidth * 0.32));
+      const width = wide ? 260 : Math.min(128, Math.max(112, window.innerWidth * 0.32));
       const height = width / 0.72;
-      const room = window.innerHeight - height - (wide ? 140 : 160);
+      const room = window.innerHeight - height - (wide ? 120 : 160);
       const top = wide ? Math.max(88, Math.min((window.innerHeight - height) / 2, room)) : 80;
-      document.documentElement.style.setProperty("--shop-space", wide ? "16rem" : "0px");
       document.documentElement.style.setProperty("--shop-gutter", wide ? "0px" : "11.25rem");
       setBox((prev) => (prev.width === width && Math.abs(prev.top - top) < 1 ? prev : { width, top }));
     };

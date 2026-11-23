@@ -202,21 +202,3 @@
     padding-right: var(--shop-gutter, 11.25rem);
   }
 }
-
-@media (min-width: 1024px) {
-  header > .max-w-6xl,
-  #noi-dung .max-w-6xl,
-  footer > .max-w-6xl {
-    width: min(72rem, calc(100vw - var(--shop-space, 16rem) - 1.25rem));
-    max-width: none;
-    margin-right: var(--shop-space, 16rem);
-    margin-left: auto;
-  }
-
-  #noi-dung .max-w-3xl {
-    width: min(48rem, calc(100vw - var(--shop-space, 16rem) - 1.25rem));
-    max-width: none;
-    margin-right: var(--shop-space, 16rem);
-    margin-left: auto;
-  }
-}
