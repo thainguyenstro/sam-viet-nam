@@ -89,7 +89,7 @@ function HomePage() {
             <Leaf className="size-4" aria-hidden="true" />
             {site.hero.eyebrow}
           </p>
-          <h1 className="mt-3 max-w-xl font-display text-4xl leading-snug text-bark md:text-5xl">{site.hero.title}</h1>
+          <h1 className="mt-3 max-w-xl font-display text-3xl leading-snug text-bark sm:text-4xl md:text-5xl">{site.hero.title}</h1>
           <p className="mt-3 font-display text-xl text-leaf-deep">{site.tagline}</p>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-mist">{site.hero.lede}</p>
           <div className="mt-6 flex flex-wrap gap-3">

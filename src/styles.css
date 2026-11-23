@@ -159,6 +159,7 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     line-height: 1.55;
+    overflow-x: clip;
   }
 
   button:not(:disabled),
@@ -192,5 +193,30 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  #noi-dung,
+  footer > div {
+    padding-right: var(--shop-gutter, 11.25rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  header > .max-w-6xl,
+  #noi-dung .max-w-6xl,
+  footer > .max-w-6xl {
+    width: min(72rem, calc(100vw - var(--shop-space, 16rem) - 1.25rem));
+    max-width: none;
+    margin-right: var(--shop-space, 16rem);
+    margin-left: auto;
+  }
+
+  #noi-dung .max-w-3xl {
+    width: min(48rem, calc(100vw - var(--shop-space, 16rem) - 1.25rem));
+    max-width: none;
+    margin-right: var(--shop-space, 16rem);
+    margin-left: auto;
   }
 }

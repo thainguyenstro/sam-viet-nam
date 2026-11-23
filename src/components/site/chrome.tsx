@@ -75,15 +75,35 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 }
 
 function ShopBanner() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(true);
+  const [box, setBox] = useState({ width: 150, top: 84 });
   const spots = [
-    { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: "55%", height: "9%" },
-    { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: "64.5%", height: "9%" },
-    { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: "76%", height: "12%" },
+    { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: 0.545 },
+    { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: 0.645 },
+    { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: 0.755 },
   ];
 
+  useEffect(() => {
+    const measure = () => {
+      const wide = window.innerWidth >= 1024;
+      const width = wide ? 196 : Math.min(128, Math.max(112, window.innerWidth * 0.32));
+      const height = width / 0.72;
+      const room = window.innerHeight - height - (wide ? 140 : 160);
+      const top = wide ? Math.max(88, Math.min((window.innerHeight - height) / 2, room)) : 80;
+      document.documentElement.style.setProperty("--shop-space", wide ? "16rem" : "0px");
+      document.documentElement.style.setProperty("--shop-gutter", wide ? "0px" : "11.25rem");
+      setBox((prev) => (prev.width === width && Math.abs(prev.top - top) < 1 ? prev : { width, top }));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [pathname]);
+
+  const bannerHeight = box.width / 0.72;
+
   return (
-    <div className="fixed top-1/2 right-0 z-40 -translate-y-1/2">
+    <div className="fixed right-0 z-30" style={{ top: box.top }}>
       <div
         className={cn(
           "flex items-center transition-transform duration-300 ease-out",
@@ -98,7 +118,10 @@ function ShopBanner() {
         >
           {open ? <ChevronRight className="size-5" aria-hidden="true" /> : <ChevronLeft className="size-5" aria-hidden="true" />}
         </button>
-        <div className="relative mr-2 aspect-[360/500] w-[min(68vw,230px,calc(62vh*0.72))] overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl">
+        <div
+          className="relative mr-2 overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl"
+          style={{ width: box.width, height: bannerHeight }}
+        >
           <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="absolute inset-0 h-full w-full object-fill" />
           {spots.map((spot) => (
             <a
@@ -107,8 +130,8 @@ function ShopBanner() {
               target="_blank"
               rel="noreferrer"
               aria-label={spot.label}
-              style={{ top: spot.top, height: spot.height }}
-              className="absolute right-[8%] left-[8%] z-10 rounded-full transition hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-[0_10px_24px_rgba(0,0,0,0.28)]"
+              style={{ top: bannerHeight * spot.top, height: Math.max(bannerHeight * 0.1, 36) }}
+              className="absolute right-[7%] left-[7%] z-10 rounded-full"
             />
           ))}
         </div>
@@ -119,22 +142,22 @@ function ShopBanner() {
 
 function ContactFloat() {
   return (
-    <div className="fixed right-6 bottom-10 z-50 flex flex-col gap-4">
+    <div className="fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 flex flex-col gap-3 md:right-6 md:bottom-8 md:gap-4">
       <a
         href="tel:+84972717779"
         aria-label="Gọi 0972 717 779"
-        className="contact-float relative grid size-16 place-items-center rounded-full bg-[#22c55e] text-white shadow-lg"
+        className="contact-float relative grid size-14 place-items-center rounded-full bg-[#22c55e] text-white shadow-lg md:size-16"
       >
         <span className="contact-ripple" />
         <span className="contact-ripple contact-ripple-delay" />
-        <Phone className="contact-ring relative size-7" aria-hidden="true" />
+        <Phone className="contact-ring relative size-6 md:size-7" aria-hidden="true" />
       </a>
       <a
         href="https://zalo.me/0972717779"
         target="_blank"
         rel="noreferrer"
         aria-label="Nhắn Zalo 0972 717 779"
-        className="contact-float relative grid size-16 place-items-center rounded-full bg-[#0068ff] text-sm font-bold text-white shadow-lg"
+        className="contact-float relative grid size-14 place-items-center rounded-full bg-[#0068ff] text-xs font-bold text-white shadow-lg md:size-16 md:text-sm"
       >
         <span className="contact-ripple" />
         <span className="contact-ripple contact-ripple-delay" />
@@ -151,11 +174,11 @@ function Logo({ onDark = true }: { onDark?: boolean }) {
         src={site.logo}
         alt=""
         className={cn(
-          "h-12 w-auto object-contain",
+          "h-9 w-auto object-contain md:h-12",
           onDark && "drop-shadow-[0_0_12px_rgba(232,210,150,0.35)]",
         )}
       />
-      <span className={cn("font-display text-xl leading-none", onDark ? "text-[#f6ecd4]" : "text-bark")}>
+      <span className={cn("max-w-[8.5rem] truncate font-display text-base leading-none sm:max-w-none sm:text-xl", onDark ? "text-[#f6ecd4]" : "text-bark")}>
         {site.name}
       </span>
     </Link>
@@ -329,7 +352,7 @@ function SiteFooter() {
   }
 
   return (
-    <footer className="mt-16 bg-soil text-paper">
+    <footer className="mt-16 bg-soil pb-28 text-paper md:pb-14">
       <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-5 py-14 md:grid-cols-2 md:px-8">
         <div>
           <img src={site.logo} alt="" className="h-16 w-auto object-contain" />

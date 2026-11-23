@@ -84,7 +84,7 @@ function RecipePage() {
         <Leaf className="size-4" aria-hidden="true" />
         {groupName(recipe.group)}
       </p>
-      <h1 className="mt-2 font-display text-4xl leading-snug text-bark">{recipe.title}</h1>
+      <h1 className="mt-2 font-display text-3xl leading-snug text-bark sm:text-4xl">{recipe.title}</h1>
       <p className="mt-2 flex items-center gap-2 text-sm text-mist">
         <Clock className="size-4 text-leaf" aria-hidden="true" />
         Khoảng {recipe.minutes} phút · ước lượng {recipe.kcal} kcal cho {recipe.servings} phần gốc
@@ -239,7 +239,7 @@ function RecipePage() {
         <p className="mt-2 text-sm leading-relaxed text-mist">
           Tính lượng calo (năng lượng) mỗi ngày cần thiết dựa trên chiều cao/ cân nặng và giới tính, độ tuổi.
         </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-4">
+        <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
           <label className="text-sm text-bark">
             Cao (cm)
             <input
