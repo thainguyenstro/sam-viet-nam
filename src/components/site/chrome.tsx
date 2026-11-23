@@ -83,21 +83,23 @@ const shopSpots = [
 function ShopLinks() {
   return (
     <>
-      <img
-        src="/media/bang-mua-hang.png"
-        alt="Sâm dây Ngọc Linh — mua hàng"
-        className="pointer-events-none absolute inset-0 h-full w-full object-fill"
-      />
-      {shopSpots.map((spot) => (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl">
+        <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="h-full w-full object-fill" />
+      </div>
+      {shopSpots.map((spot, index) => (
         <a
           key={spot.label}
           href={spot.href}
           target="_blank"
           rel="noreferrer"
           aria-label={spot.label}
-          style={{ top: `${spot.top * 100}%`, height: `${spot.height * 100}%` }}
-          className="absolute right-[8%] left-[8%] z-10 cursor-pointer rounded-full"
-        />
+          style={{ top: `${spot.top * 100}%`, height: `${spot.height * 100}%`, animationDelay: `${index * 0.35}s` }}
+          className="shop-spot absolute right-[8%] left-[8%] z-10 cursor-pointer rounded-full"
+        >
+          <span className="shop-face" />
+          <span className="shop-ripple" style={{ animationDelay: `${index * 0.35}s` }} />
+          <span className="shop-ripple" style={{ animationDelay: `${index * 0.35 + 0.7}s` }} />
+        </a>
       ))}
     </>
   );
@@ -139,7 +141,7 @@ function ShopBanner() {
           >
             {open ? <ChevronRight className="size-5" aria-hidden="true" /> : <ChevronLeft className="size-5" aria-hidden="true" />}
           </button>
-          <div className="relative mr-2 aspect-[360/500] overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl" style={{ width }}>
+          <div className="relative mr-2 aspect-[360/500]" style={{ width }}>
             <ShopLinks />
           </div>
         </div>
@@ -156,7 +158,7 @@ function ShopBanner() {
             >
               <X className="size-5" aria-hidden="true" />
             </button>
-            <div className="relative aspect-[360/500] overflow-hidden rounded-2xl shadow-2xl">
+            <div className="relative aspect-[360/500] shadow-2xl">
               <ShopLinks />
             </div>
           </div>
