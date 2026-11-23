@@ -75,9 +75,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 }
 
 function ShopBanner() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(true);
-  const [box, setBox] = useState({ width: 150, top: 84 });
+  const [top, setTop] = useState(96);
+  const width = 310;
   const spots = [
     { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: 0.545 },
     { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: 0.645 },
@@ -86,23 +86,20 @@ function ShopBanner() {
 
   useEffect(() => {
     const measure = () => {
-      const wide = window.innerWidth >= 1024;
-      const width = wide ? 260 : Math.min(128, Math.max(112, window.innerWidth * 0.32));
       const height = width / 0.72;
-      const room = window.innerHeight - height - (wide ? 120 : 160);
-      const top = wide ? Math.max(88, Math.min((window.innerHeight - height) / 2, room)) : 80;
-      document.documentElement.style.setProperty("--shop-gutter", wide ? "0px" : "11.25rem");
-      setBox((prev) => (prev.width === width && Math.abs(prev.top - top) < 1 ? prev : { width, top }));
+      const room = window.innerHeight - height - 120;
+      const next = Math.max(88, Math.min((window.innerHeight - height) / 2, room));
+      setTop((prev) => (Math.abs(prev - next) < 1 ? prev : next));
     };
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [pathname]);
+  }, []);
 
-  const bannerHeight = box.width / 0.72;
+  const bannerHeight = width / 0.72;
 
   return (
-    <div className="fixed right-0 z-30" style={{ top: box.top }}>
+    <div className="fixed right-0 z-30 hidden md:block" style={{ top }}>
       <div
         className={cn(
           "flex items-center transition-transform duration-300 ease-out",
@@ -119,7 +116,7 @@ function ShopBanner() {
         </button>
         <div
           className="relative mr-2 overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl"
-          style={{ width: box.width, height: bannerHeight }}
+          style={{ width, height: bannerHeight }}
         >
           <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="absolute inset-0 h-full w-full object-fill" />
           {spots.map((spot) => (

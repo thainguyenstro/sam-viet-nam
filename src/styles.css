@@ -195,10 +195,3 @@
     transition-duration: 0.01ms !important;
   }
 }
-
-@media (max-width: 1023px) {
-  #noi-dung,
-  footer > div {
-    padding-right: var(--shop-gutter, 11.25rem);
-  }
-}
