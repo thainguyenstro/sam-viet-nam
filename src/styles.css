@@ -140,67 +140,20 @@
       transform: rotate(3deg);
     }
   }
-  .shop-spot {
-    animation: shop-pulse 1.8s ease-out infinite;
-  }
-  .shop-face {
-    position: absolute;
-    inset: 0;
-    border-radius: 9999px;
-    box-shadow: inset 0 0 0 1.5px rgba(255, 226, 150, 0.45);
-    pointer-events: none;
-  }
-  .shop-ripple {
-    position: absolute;
-    inset: 0;
-    border-radius: 9999px;
-    border: 2px solid rgba(255, 214, 120, 0.9);
-    opacity: 0;
-    animation: shop-ripple 1.8s ease-out infinite;
-    pointer-events: none;
-  }
-  @keyframes shop-pulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(226, 184, 90, 0.55);
-    }
-    70% {
-      box-shadow: 0 0 0 12px rgba(226, 184, 90, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(226, 184, 90, 0);
-    }
-  }
-  @keyframes shop-ripple {
-    0% {
-      transform: scale(1);
-      opacity: 0.7;
-    }
-    100% {
-      transform: scale(1.28);
-      opacity: 0;
-    }
+  .shop-btn {
+    transition: transform 0.28s ease, filter 0.28s ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    .shop-spot {
-      transition: transform 0.28s ease;
-    }
-    .shop-spot:hover {
+    .shop-btn:hover {
       transform: translateY(-6px);
+      filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.35));
       z-index: 20;
-    }
-    .shop-spot:hover .shop-face {
-      background: rgba(255, 236, 180, 0.22);
-      box-shadow:
-        0 14px 26px rgba(0, 0, 0, 0.32),
-        inset 0 0 0 1.5px rgba(255, 236, 190, 0.9);
     }
   }
   @media (prefers-reduced-motion: reduce) {
     .contact-float,
     .contact-ripple,
-    .contact-ring,
-    .shop-spot,
-    .shop-ripple {
+    .contact-ring {
       animation: none;
     }
   }

@@ -91,7 +91,17 @@ function HomePage() {
           </p>
           <h1 className="mt-3 max-w-xl font-display text-3xl leading-snug text-bark sm:text-4xl md:text-5xl">{site.hero.title}</h1>
           <p className="mt-3 font-display text-xl text-leaf-deep">{site.tagline}</p>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-mist">{site.hero.lede}</p>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-mist">
+            {site.hero.lede}{" "}
+            <a
+              href="https://vkist.gov.vn/vi/ctype-service_news/sam-viet-nam--panax-vietnamensis-ha-grushv--cay-thuoc-quy-cua-viet-nam-103.htm"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-leaf underline decoration-leaf/50 underline-offset-2 hover:text-leaf-deep"
+            >
+              Xem thêm tại đây
+            </a>
+          </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href="#cong-thuc" className={btnPrimary}>
               Thực dưỡng từ sâm

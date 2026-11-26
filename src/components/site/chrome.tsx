@@ -75,30 +75,52 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 }
 
 const shopSpots = [
-  { href: "https://s.shopee.vn/3VlyIlkNrM", label: "Mua hàng tại đây", top: 0.51, height: 0.13 },
-  { href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/", label: "Đặt mua ngay", top: 0.65, height: 0.12 },
-  { href: "https://www.facebook.com/profile.php?id=61594977697670", label: "Liên hệ tư vấn", top: 0.775, height: 0.1 },
+  {
+    href: "https://s.shopee.vn/3VlyIlkNrM",
+    label: "Mua hàng tại đây",
+    src: "/media/nut-mua-hang.png",
+    left: "13.06%",
+    top: "55%",
+    width: "73.89%",
+    height: "8.8%",
+  },
+  {
+    href: "https://vt.tiktok.com/ZS9PY2Vne7Nm4-SJToN/",
+    label: "Đặt mua ngay",
+    src: "/media/nut-dat-mua.png",
+    left: "13.89%",
+    top: "65.2%",
+    width: "73.33%",
+    height: "8.6%",
+  },
+  {
+    href: "https://www.facebook.com/profile.php?id=61594977697670",
+    label: "Liên hệ tư vấn",
+    src: "/media/nut-lien-he.png",
+    left: "12.5%",
+    top: "77.8%",
+    width: "75%",
+    height: "8.6%",
+  },
 ];
 
 function ShopLinks() {
   return (
     <>
       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl border border-[#c4a56a]/50 shadow-xl">
-        <img src="/media/bang-mua-hang.png" alt="Sâm dây Ngọc Linh — mua hàng" className="h-full w-full object-fill" />
+        <img src="/media/bang-mua-hang-nen.png" alt="Sâm dây Ngọc Linh — mua hàng" className="h-full w-full object-fill" />
       </div>
-      {shopSpots.map((spot, index) => (
+      {shopSpots.map((spot) => (
         <a
           key={spot.label}
           href={spot.href}
           target="_blank"
           rel="noreferrer"
           aria-label={spot.label}
-          style={{ top: `${spot.top * 100}%`, height: `${spot.height * 100}%`, animationDelay: `${index * 0.35}s` }}
-          className="shop-spot absolute right-[8%] left-[8%] z-10 cursor-pointer rounded-full"
+          style={{ left: spot.left, top: spot.top, width: spot.width, height: spot.height }}
+          className="shop-btn absolute z-10"
         >
-          <span className="shop-face" />
-          <span className="shop-ripple" style={{ animationDelay: `${index * 0.35}s` }} />
-          <span className="shop-ripple" style={{ animationDelay: `${index * 0.35 + 0.7}s` }} />
+          <img src={spot.src} alt="" className="pointer-events-none h-full w-full object-fill" />
         </a>
       ))}
     </>
